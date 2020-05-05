@@ -1,4 +1,3 @@
 [build]
-base = "matheapp/"
-publish = "matheapp/build/"
+publish = "build"
 command = "npm run build"
