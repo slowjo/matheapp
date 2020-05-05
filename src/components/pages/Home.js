@@ -107,7 +107,7 @@ const Home = ({
       });
       socket.on("sentTaskSolved", (task) => {
         console.log("someone solved a task you gave them");
-        // sentTaskSolved(task);
+        sentTaskSolved(task);
         // const solver = users.filter((usersItem) => usersItem._id === task.to)[0]
         //   .name;
         // setTaskMessage(`${solver} hat deine Aufgabe gelöst`);
