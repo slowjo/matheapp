@@ -1,4 +1,4 @@
-import uuid from "uuid/v4";
+// import uuid from "uuid/v4";
 
 import {
   NEW_TASK,
@@ -99,7 +99,8 @@ export const sentTaskSolved = (task) => ({
 
 // Set and remove a task message
 export const setTaskMessage = (message) => (dispatch) => {
-  const _id = uuid();
+  // const _id = uuid();
+  const _id = new Date().toISOString();
 
   dispatch({
     type: SET_TASK_MESSAGE,
