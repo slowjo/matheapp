@@ -1,0 +1,6 @@
+[build]
+base = "matheapp/"
+publish = "matheapp/build/"
+command = "npm run build"
+
+/*    /index.html   200
