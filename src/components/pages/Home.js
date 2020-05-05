@@ -77,7 +77,7 @@ const Home = ({
         user.taskMessages.forEach((taskMessageItem) => {
           setTaskMessage(taskMessageItem.message);
         });
-      }, 100);
+      }, 1000);
     }
   }, [socket, user]);
 
