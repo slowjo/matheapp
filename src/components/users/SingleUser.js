@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import TaskForm from "../tasks/TaskForm";
 import YourTask from "../tasks/YourTask";
 
@@ -15,9 +15,14 @@ const SingleUser = ({
 }) => {
   const { name, _id, socketId, online } = user;
 
-  const usersTask = tasks.sentTasks.filter((task) => task.to === _id);
+  let usersTask = tasks.sentTasks.filter((task) => task.to === _id);
 
   const yourTask = tasks.unsolvedTasks.filter((task) => task.from === _id);
+
+  useEffect(() => {
+    let usersTask = tasks.sentTasks.filter((task) => task.to === _id);
+    const yourTask = tasks.unsolvedTasks.filter((task) => task.from === _id);
+  }, [tasks]);
 
   const onClick = () => {
     console.log("click");
