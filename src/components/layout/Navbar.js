@@ -22,9 +22,9 @@ const Navbar = ({ logout, isAuthenticated, user, socket }) => {
 
   const guestLinks = (
     <Fragment>
-      <li>
+      {/* <li>
         <Link to="/register">Register</Link>
-      </li>
+      </li> */}
       <li>
         <Link to="/login">Login</Link>
       </li>
