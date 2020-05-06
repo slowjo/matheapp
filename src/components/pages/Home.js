@@ -53,7 +53,7 @@ const Home = ({
   useEffect(() => {
     if (isAuthenticated) {
       const newSocket = openSocket.connect(
-        // "http://localhost:9090"
+        // "http://localhost:9090",
         "https://boiling-oasis-15718.herokuapp.com",
         {
           query: { token: localStorage.token },

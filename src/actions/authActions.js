@@ -11,7 +11,9 @@ import {
   SET_TASKS,
 } from "./types";
 
-const devurl = "http://localhost:9090/";
+// const devurl = "http://localhost:9090/";
+
+// const produrl = "http://localhost:9090/";
 
 const produrl = "https://boiling-oasis-15718.herokuapp.com/";
 
