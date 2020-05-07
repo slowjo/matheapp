@@ -6,6 +6,7 @@ import {
   USER_GONE_OFFLINE,
   SELECT_USER,
   CLEAR_SELECTED_USER,
+  SET_POINTS,
   NEW_TASK,
   TASK_ERROR,
 } from "./types";
@@ -33,9 +34,19 @@ export const getAllUsers = () => async (dispatch) => {
     }
     const resData = await res.json();
 
+    const reducer = (accumulator, currentValue) =>
+      accumulator + currentValue.solvedTasks;
+
+    const points = resData.reduce(reducer, 0);
+
     dispatch({
       type: GET_USERS,
       payload: resData,
+    });
+
+    dispatch({
+      type: SET_POINTS,
+      payload: points,
     });
   } catch (err) {
     dispatch({

@@ -8,6 +8,7 @@ import {
   SENT_TASK_SOLVED,
   SET_TASK_MESSAGE,
   REMOVE_TASK_MESSAGE,
+  ADD_POINT,
 } from "./types";
 
 // const devurl = "http://localhost:9090/";
@@ -144,3 +145,8 @@ export const getTaskMessage = () => async (dispatch) => {
     });
   }
 };
+
+// Add a point
+export const addPoint = () => ({
+  type: ADD_POINT,
+});

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Users from "../users/Users";
 import TaskMessages from "../layout/TaskMessages";
+import Points from "../points/Points";
 import { connect } from "react-redux";
 import { getUser, setSocket } from "../../actions/authActions";
 import {
@@ -18,6 +19,7 @@ import {
   sentTaskSolved,
   setTaskMessage,
   getTaskMessage,
+  addPoint,
 } from "../../actions/taskActions";
 import PropTypes from "prop-types";
 import openSocket from "socket.io-client";
@@ -45,6 +47,8 @@ const Home = ({
   setTaskMessage,
   taskMessages,
   getTaskMessage,
+  addPoint,
+  points,
 }) => {
   useEffect(() => {
     getUser();
@@ -113,12 +117,19 @@ const Home = ({
         // setTaskMessage(`${solver} hat deine Aufgabe gelöst`);
         getTaskMessage();
       });
+      socket.on("solvedTask", () => {
+        console.log("+1!");
+        addPoint();
+      });
     }
   }, [socket, loadingUsers]);
 
   return (
     <div>
-      <TaskMessages taskMessages={taskMessages} />
+      <div className="notification-element">
+        <TaskMessages taskMessages={taskMessages} />
+        <Points points={points} />
+      </div>
       {users && (
         <Users
           users={users}
@@ -145,6 +156,7 @@ const mapStateToProps = (state) => ({
   socket: state.auth.socket,
   tasks: state.tasks,
   taskMessages: state.tasks.taskMessages,
+  points: state.tasks.points,
 });
 
 Home.propTypes = {
@@ -162,6 +174,7 @@ Home.propTypes = {
   sentTaskSolved: PropTypes.func.isRequired,
   setTaskMessage: PropTypes.func.isRequired,
   getTaskMessage: PropTypes.func.isRequired,
+  addPoint: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -179,4 +192,5 @@ export default connect(mapStateToProps, {
   sentTaskSolved,
   setTaskMessage,
   getTaskMessage,
+  addPoint,
 })(Home);

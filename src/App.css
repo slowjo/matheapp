@@ -125,11 +125,59 @@ label {
   font-size: 30px;
 }
 
+.task-messages {
+  width: 100%;
+  /* overflow: scroll; */
+}
+
 .task-message {
   background: lightseagreen;
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   padding: 15px;
   text-align: center;
   margin-bottom: 15px;
+}
+
+.notification-element {
+  max-width: 350px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  /* height: 100px; */
+}
+
+/* Points */
+.points {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100px;
+  font-size: 1.7rem;
+}
+
+.points-bobber {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+}
+
+.bobbing-off {
+  font-size: 1.4rem;
+  height: 90%;
+  width: 90%;
+}
+
+.bobbing {
+  font-size: 1.4rem;
+  /* color: lightseagreen; */
+  height: 100%;
+  width: 100%;
+}
+
+.bg-light {
+  background: goldenrod;
+  padding: 15px;
 }

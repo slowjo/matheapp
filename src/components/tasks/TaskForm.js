@@ -31,6 +31,12 @@ const TaskForm = ({
       alert("Das ist zu schwer, bitte gib kleinere Zahlen ein");
     } else if (numberOne * numberTwo > 999) {
       alert("Das ist zu schwer, bitte gib kleinere Zahlen ein");
+    } else if (numberOne < 0 || numberTwo < 0) {
+      alert("Nein");
+      setTask({
+        numberOne: "",
+        numberTwo: "",
+      });
     } else {
       newTask({
         numberOne,
@@ -51,6 +57,7 @@ const TaskForm = ({
         <div className="text-center py-10">
           <input
             type="number"
+            min="0"
             name="numberOne"
             value={numberOne}
             onChange={onChange}
@@ -59,6 +66,7 @@ const TaskForm = ({
           <span className="font-30">&times;</span>{" "}
           <input
             type="number"
+            min="0"
             name="numberTwo"
             value={numberTwo}
             onChange={onChange}

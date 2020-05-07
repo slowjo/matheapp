@@ -7,17 +7,30 @@ import {
   SENT_TASK_SOLVED,
   SET_TASK_MESSAGE,
   REMOVE_TASK_MESSAGE,
+  SET_POINTS,
+  ADD_POINT,
 } from "../actions/types";
 
 const initialState = {
   unsolvedTasks: [],
   sentTasks: [],
   taskMessages: [],
+  points: 0,
   taskError: null,
 };
 
 const tasks = (state = initialState, action) => {
   switch (action.type) {
+    case SET_POINTS:
+      return {
+        ...state,
+        points: action.payload,
+      };
+    case ADD_POINT:
+      return {
+        ...state,
+        points: state.points + 1,
+      };
     case SET_TASKS:
       return {
         ...state,
