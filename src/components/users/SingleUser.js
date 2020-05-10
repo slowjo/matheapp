@@ -21,28 +21,37 @@ const SingleUser = ({
 
   const onClick = () => {
     console.log("click");
-    if (usersTask.length === 0) {
-      if (selectedUser !== null && _id === selectedUser) {
-        clearSelectedUser();
+    // if (usersTask.length === 0) {
+    if (selectedUser !== null && _id === selectedUser._id) {
+      clearSelectedUser();
+    } else {
+      const pickedUser = user;
+      if (tasks.sentTasks.filter((task) => task.to === _id).length !== 0) {
+        pickedUser.usersTask = tasks.sentTasks.find((task) => task.to === _id);
       } else {
-        selectUser(_id);
+        pickedUser.usersTask = null;
       }
+      // selectUser(_id);
+      selectUser(pickedUser);
     }
+    // }
   };
 
   return (
     <Fragment>
+      {/* <div className="user-container"> */}
       <div onClick={onClick} className="single-user">
         <h3>{name}</h3>
-        {online ? <h2>online</h2> : <h2>offline</h2>}
-        {usersTask.length > 0 && (
+        <i className="fas fa-user-circle fa-2x"></i>
+        {online ? <h4>online</h4> : <h4>offline</h4>}
+        {/* {usersTask.length > 0 && (
           <h4>
             Du hast {name} gefragt was {usersTask[0].numberOne} *{" "}
             {usersTask[0].numberTwo} ergibt
           </h4>
-        )}
+        )} */}
       </div>
-      {selectedUser && _id === selectedUser && (
+      {/* {selectedUser && _id === selectedUser && (
         <TaskForm
           user={user}
           newTask={newTask}
@@ -51,8 +60,9 @@ const SingleUser = ({
           clearSelectedUser={clearSelectedUser}
           setTaskMessage={setTaskMessage}
         />
-      )}
-      {yourTask.length > 0 && (
+      )} */}
+      {/* </div> */}
+      {/* {yourTask.length > 0 && (
         <YourTask
           from={name}
           task={yourTask[0]}
@@ -60,7 +70,7 @@ const SingleUser = ({
           fromSocketId={socketId}
           setTaskMessage={setTaskMessage}
         />
-      )}
+      )} */}
     </Fragment>
   );
 };

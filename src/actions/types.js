@@ -23,4 +23,7 @@ export const SET_TASK_MESSAGE = "SET_TASK_MESSAGE";
 export const REMOVE_TASK_MESSAGE = "REMOVE_TASK_MESSAGE";
 export const SET_POINTS = "SET_POINTS";
 export const ADD_POINT = "ADD_POINT";
+export const SELECT_TASK = "SELECT_TASK";
+export const CLEAR_SELECTED_TASK = "CLEAR_SELECTED_TASK";
+export const CLEAR_USERS_TASK = "CLEAR_USERS_TASK";
 export const TASK_ERROR = "TASK_ERROR";

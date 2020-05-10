@@ -75,10 +75,14 @@ export const userGoneOffline = (userGoneOffline) => ({
 });
 
 // Select User
-export const selectUser = (_id) => ({
+export const selectUser = (user) => ({
   type: SELECT_USER,
-  payload: _id,
+  payload: user,
 });
+// export const selectUser = (_id) => ({
+//   type: SELECT_USER,
+//   payload: _id,
+// });
 
 // Clear Selected User
 export const clearSelectedUser = () => ({

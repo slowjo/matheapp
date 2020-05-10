@@ -6,6 +6,7 @@ import {
   USER_GONE_OFFLINE,
   SELECT_USER,
   CLEAR_SELECTED_USER,
+  CLEAR_USERS_TASK,
 } from "../actions/types";
 
 const initialState = {
@@ -65,12 +66,18 @@ const users = (state = initialState, action) => {
     case SELECT_USER:
       return {
         ...state,
+        // selectedUser: state.users.find((item) => item._id === action.payload),
         selectedUser: action.payload,
       };
     case CLEAR_SELECTED_USER:
       return {
         ...state,
         selectedUser: null,
+      };
+    case CLEAR_USERS_TASK:
+      return {
+        ...state,
+        selectedUser: { ...state.selectedUser, usersTask: null },
       };
     default:
       return state;

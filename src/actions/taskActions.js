@@ -9,6 +9,9 @@ import {
   SET_TASK_MESSAGE,
   REMOVE_TASK_MESSAGE,
   ADD_POINT,
+  SELECT_TASK,
+  CLEAR_SELECTED_TASK,
+  CLEAR_USERS_TASK,
 } from "./types";
 
 // const devurl = "http://localhost:9090/";
@@ -95,10 +98,17 @@ export const taskSolved = (task, result, fromSocketId) => async (dispatch) => {
 };
 
 // A Task The User Sent Was Solved
-export const sentTaskSolved = (task) => ({
-  type: SENT_TASK_SOLVED,
-  payload: task,
-});
+export const sentTaskSolved = (task) => (dispatch) => {
+  dispatch({
+    type: SENT_TASK_SOLVED,
+    payload: task,
+  });
+
+  dispatch({
+    type: CLEAR_USERS_TASK,
+    payload: task.to,
+  });
+};
 
 // Set and remove a task message
 export const setTaskMessage = (message) => (dispatch) => {
@@ -149,4 +159,14 @@ export const getTaskMessage = () => async (dispatch) => {
 // Add a point
 export const addPoint = () => ({
   type: ADD_POINT,
+});
+
+// Select a task
+export const selectTask = (task) => ({
+  type: SELECT_TASK,
+  payload: task,
+});
+
+export const clearSelectedTask = () => ({
+  type: CLEAR_SELECTED_TASK,
 });

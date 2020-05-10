@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Users from "../users/Users";
 import TaskMessages from "../layout/TaskMessages";
 import Points from "../points/Points";
+import TaskForm from "../tasks/TaskForm";
+import Tasks from "../tasks/Tasks";
+import YourTask from "../tasks/YourTask";
 import { connect } from "react-redux";
 import { getUser, setSocket } from "../../actions/authActions";
 import {
@@ -20,6 +23,8 @@ import {
   setTaskMessage,
   getTaskMessage,
   addPoint,
+  selectTask,
+  clearSelectedTask,
 } from "../../actions/taskActions";
 import PropTypes from "prop-types";
 import openSocket from "socket.io-client";
@@ -49,6 +54,10 @@ const Home = ({
   getTaskMessage,
   addPoint,
   points,
+  unsolvedTasks,
+  selectTask,
+  selectedTask,
+  clearSelectedTask,
 }) => {
   useEffect(() => {
     getUser();
@@ -143,6 +152,41 @@ const Home = ({
           setTaskMessage={setTaskMessage}
         />
       )}
+      {selectedUser !== null && !selectedUser.usersTask && (
+        <TaskForm
+          user={selectedUser}
+          newTask={newTask}
+          appUser={user}
+          socketId={selectedUser.socketId}
+          clearSelectedUser={clearSelectedUser}
+          setTaskMessage={setTaskMessage}
+        />
+      )}
+      {selectedUser !== null && selectedUser.usersTask && (
+        <h4 className="task-form text-center">
+          Du hast {selectedUser.name} schon eine Aufgabe geschickt. Warte bis
+          die Aufgabe gelöst ist, dann kannst du eine neue schicken.
+        </h4>
+      )}
+      {users && (
+        <Tasks
+          tasks={unsolvedTasks}
+          selectTask={selectTask}
+          taskSolved={taskSolved}
+          setTaskMessage={setTaskMessage}
+          users={users}
+          clearSelectedTask={clearSelectedTask}
+        />
+      )}
+      {selectedTask !== null && (
+        <YourTask
+          task={selectedTask}
+          taskSolved={taskSolved}
+          setTaskMessage={setTaskMessage}
+          users={users}
+          clearSelectedTask={clearSelectedTask}
+        />
+      )}
     </div>
   );
 };
@@ -157,6 +201,8 @@ const mapStateToProps = (state) => ({
   tasks: state.tasks,
   taskMessages: state.tasks.taskMessages,
   points: state.tasks.points,
+  unsolvedTasks: state.tasks.unsolvedTasks,
+  selectedTask: state.tasks.selectedTask,
 });
 
 Home.propTypes = {
@@ -175,6 +221,8 @@ Home.propTypes = {
   setTaskMessage: PropTypes.func.isRequired,
   getTaskMessage: PropTypes.func.isRequired,
   addPoint: PropTypes.func.isRequired,
+  selectTask: PropTypes.func.isRequired,
+  clearSelectedTask: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -193,4 +241,6 @@ export default connect(mapStateToProps, {
   setTaskMessage,
   getTaskMessage,
   addPoint,
+  selectTask,
+  clearSelectedTask,
 })(Home);

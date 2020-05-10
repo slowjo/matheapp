@@ -51,8 +51,8 @@ const TaskForm = ({
   };
 
   return (
-    <div>
-      <h2 className="text-center">Stelle {user.name} eine Aufgabe</h2>
+    <div className="task-form">
+      <h4 className="text-center">Schicke {user.name} eine Aufgabe</h4>
       <form onSubmit={onSubmit}>
         <div className="text-center py-10">
           <input
@@ -73,8 +73,12 @@ const TaskForm = ({
             className="task-input"
           />{" "}
           <span className="font-30">= ?</span>
+          {/* <input type="submit" value="Abschicken" className="btn" /> */}
+          {/* <input type="submit" className="btn" value="Yay" /> */}
+          <button type="submit" className="btn btn-round">
+            <i className="fas fa-paper-plane"></i>
+          </button>
         </div>
-        <input type="submit" value="Abschicken" className="btn btn-block" />
       </form>
     </div>
   );

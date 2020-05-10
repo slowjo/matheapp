@@ -9,6 +9,8 @@ import {
   REMOVE_TASK_MESSAGE,
   SET_POINTS,
   ADD_POINT,
+  SELECT_TASK,
+  CLEAR_SELECTED_TASK,
 } from "../actions/types";
 
 const initialState = {
@@ -16,6 +18,7 @@ const initialState = {
   sentTasks: [],
   taskMessages: [],
   points: 0,
+  selectedTask: null,
   taskError: null,
 };
 
@@ -72,6 +75,16 @@ const tasks = (state = initialState, action) => {
         taskMessages: state.taskMessages.filter(
           (message) => message._id !== action.payload
         ),
+      };
+    case SELECT_TASK:
+      return {
+        ...state,
+        selectedTask: action.payload,
+      };
+    case CLEAR_SELECTED_TASK:
+      return {
+        ...state,
+        selectedTask: null,
       };
     case TASK_ERROR:
       return {
