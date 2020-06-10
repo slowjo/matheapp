@@ -27,7 +27,7 @@ const NewUsers = ({ users, selectUser, tasks, desktop, appUser }) => {
           }
         })
       ) : (
-        <Link to="/chatpage">
+        <Link to="/chatpage" className="user-link">
           {users.map((user) => {
             if (user._id !== appUser._id) {
               const messageList = [];

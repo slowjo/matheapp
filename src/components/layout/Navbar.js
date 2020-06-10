@@ -14,7 +14,8 @@ const Navbar = ({ logout, isAuthenticated, user, socket }) => {
       <li>Hallo {user && user.name}</li>
       <li>
         <a onClick={onLogout} href="#!">
-          Ausloggen
+          <i className="fas fa-sign-out-alt" />
+          <span className="hide-sm">Ausloggen</span>
         </a>
       </li>
     </Fragment>

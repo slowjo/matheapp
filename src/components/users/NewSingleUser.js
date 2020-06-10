@@ -3,12 +3,52 @@ import React, { useEffect, useState } from "react";
 const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
   const [message, setMessage] = useState(null);
 
+  const [hourmins, setHourmins] = useState("");
+
+  const addZero = (i) => {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  };
+
+  const getHourMins = (someDateString) => {
+    const d = new Date(someDateString);
+    const h = addZero(d.getHours());
+    const m = addZero(d.getMinutes());
+    return h + ":" + m;
+  };
+
+  const getDayMonthYear = (someDateString) => {
+    const d = new Date(someDateString);
+    const day = addZero(d.getDate());
+    const month = addZero(d.getMonth() + 1);
+    const year = addZero(d.getFullYear());
+    return day + "/" + month + "/" + year;
+  };
+
+  const sortFunc = (a, b) => {
+    if (a.date < b.date) {
+      return -1;
+    }
+    if (a.date > b.date) {
+      return 1;
+    }
+    return 0;
+  };
+
   useEffect(() => {
     // console.log(messageList);
     if (messageList.length > 0) {
       const newestMessage = messageList[messageList.length - 1];
       //   console.log("newestMessage: ", newestMessage);
-      setMessage(messageList[messageList.length - 1]);
+      setMessage(messageList.sort(sortFunc)[messageList.length - 1]);
+      const thisDate = new Date(
+        messageList.sort(sortFunc)[messageList.length - 1].date
+      );
+      setHourmins(
+        getDayMonthYear(messageList.sort(sortFunc)[messageList.length - 1].date)
+      );
     }
   }, [messageList]);
 
@@ -34,16 +74,19 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
         <div className="user-right-text">
           <div className="user-name">{user.name}</div>
           {message ? (
-            <div className="user-status">{message.type}</div>
-          ) : (
             <div className="user-status">
-              John hat dir eine Aufgabe geschickt.
+              {message.to === user._id && "Du: "}
+              {message.type}
             </div>
+          ) : (
+            <div className="user-status">Keine Nachrichten von {user.name}</div>
           )}
         </div>
         <div className="user-right-info">
-          <div className="date">10:30</div>
-          <div className="new-message-notify">1</div>
+          {hourmins && <div className="date">{hourmins}</div>}
+          {message && message.from === user._id && (
+            <div className="new-message-notify">1</div>
+          )}
         </div>
       </div>
     </div>

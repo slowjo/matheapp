@@ -17,6 +17,20 @@ const Chat = ({
 
   const [alreadySent, setAlreadySent] = useState(null);
 
+  const addZero = (i) => {
+    if (i < 10) {
+      i = "0" + i;
+    }
+    return i;
+  };
+
+  const getHourMins = (someDateString) => {
+    const d = new Date(someDateString);
+    const h = addZero(d.getHours());
+    const m = addZero(d.getMinutes());
+    return h + ":" + m;
+  };
+
   const sortFunc = (a, b) => {
     if (a.date < b.date) {
       return -1;
@@ -44,11 +58,20 @@ const Chat = ({
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }, [tasks, selectedUser]);
 
+  const ref = React.createRef();
+
+  useEffect(() => {
+    // ref.current.scrollTop = ref.current.height;
+    // console.log(ref.current.innerHeight);
+    // console.log(ref.current);
+    ref.current.scrollTop = window.innerHeight;
+  }, [chatMessages]);
+
   // console.log("chatMessages: ", chatMessages);
 
   return (
     <div className="chat-container">
-      <div className="chat">
+      <div className="chat" ref={ref}>
         <div className="chat-item chat-date">HEUTE</div>
         <div className="chat-item you">
           <div className="chat-item-message">Chat Message</div>
@@ -102,7 +125,7 @@ const Chat = ({
             ) : (
               <TheirTask task={message} />
             )}
-            <div className="chat-item-info">19:30</div>
+            <div className="chat-item-info">{getHourMins(message.date)} </div>
           </div>
         ))}
       </div>
