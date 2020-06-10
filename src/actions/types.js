@@ -27,3 +27,5 @@ export const SELECT_TASK = "SELECT_TASK";
 export const CLEAR_SELECTED_TASK = "CLEAR_SELECTED_TASK";
 export const CLEAR_USERS_TASK = "CLEAR_USERS_TASK";
 export const TASK_ERROR = "TASK_ERROR";
+export const SET_FROM_CHAT = "SET_FROM_CHAT";
+export const CLEAR_FROM_CHAT = "CLEAR_FROM_CHAT";

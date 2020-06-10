@@ -1,4 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+// New Stuff
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+import ChatPage from "../pages/ChatPage";
+import NewUsers from "../users/NewUsers";
+import Chat from "../chat/Chat";
+import BlankChat from "../chat/BlankChat";
+import Navbar from "../layout/Navbar";
+// New Stuff End
 import Users from "../users/Users";
 import TaskMessages from "../layout/TaskMessages";
 import Points from "../points/Points";
@@ -6,7 +19,7 @@ import TaskForm from "../tasks/TaskForm";
 import Tasks from "../tasks/Tasks";
 import YourTask from "../tasks/YourTask";
 import { connect } from "react-redux";
-import { getUser, setSocket } from "../../actions/authActions";
+import { getUser, setSocket, clearFromChat } from "../../actions/authActions";
 import {
   getAllUsers,
   getOnlineUsers,
@@ -58,39 +71,47 @@ const Home = ({
   selectTask,
   selectedTask,
   clearSelectedTask,
+  fromChat,
+  clearFromChat,
 }) => {
   useEffect(() => {
     getUser();
   }, []);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      const newSocket = openSocket.connect(
-        // "http://localhost:9090",
-        "https://boiling-oasis-15718.herokuapp.com",
-        {
-          query: { token: localStorage.token },
-        }
-      );
-      setSocket(newSocket);
-      getAllUsers();
+    if (!fromChat) {
+      if (isAuthenticated) {
+        const newSocket = openSocket.connect(
+          // "http://localhost:9090",
+          "https://boiling-oasis-15718.herokuapp.com",
+          {
+            query: { token: localStorage.token },
+          }
+        );
+        setSocket(newSocket);
+        getAllUsers();
+      }
+    } else {
+      setTimeout(() => clearFromChat(), 500);
     }
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (socket && user) {
-      setTimeout(() => {
-        socket.emit("userJoined", {
-          name: user.name,
-          _id: user._id,
-          socketId: socket.id,
-        });
+    if (!fromChat) {
+      if (socket && user) {
+        setTimeout(() => {
+          socket.emit("userJoined", {
+            name: user.name,
+            _id: user._id,
+            socketId: socket.id,
+          });
 
-        // Set Task Message For Each Task In user.taskMessages
-        user.taskMessages.forEach((taskMessageItem) => {
-          setTaskMessage(taskMessageItem.message);
-        });
-      }, 1000);
+          // Set Task Message For Each Task In user.taskMessages
+          user.taskMessages.forEach((taskMessageItem) => {
+            setTaskMessage(taskMessageItem.message);
+          });
+        }, 1000);
+      }
     }
   }, [socket, user]);
 
@@ -134,60 +155,148 @@ const Home = ({
   }, [socket, loadingUsers]);
 
   return (
-    <div>
-      <div className="notification-element">
-        <TaskMessages taskMessages={taskMessages} />
-        <Points points={points} />
+    <Fragment>
+      {/* <div>
+        <div className="notification-element">
+          <TaskMessages taskMessages={taskMessages} />
+          <Points points={points} />
+        </div>
+        {users && (
+          <Users
+            users={users}
+            appUser={user}
+            selectedUser={selectedUser}
+            selectUser={selectUser}
+            clearSelectedUser={clearSelectedUser}
+            newTask={newTask}
+            tasks={tasks}
+            taskSolved={taskSolved}
+            setTaskMessage={setTaskMessage}
+          />
+        )}
+        {selectedUser !== null && !selectedUser.usersTask && (
+          <TaskForm
+            user={selectedUser}
+            newTask={newTask}
+            appUser={user}
+            socketId={selectedUser.socketId}
+            clearSelectedUser={clearSelectedUser}
+            setTaskMessage={setTaskMessage}
+          />
+        )}
+        {selectedUser !== null && selectedUser.usersTask && (
+          <h4 className="task-form text-center">
+            Du hast {selectedUser.name} schon eine Aufgabe geschickt. Warte bis
+            die Aufgabe gelöst ist, dann kannst du eine neue schicken.
+          </h4>
+        )}
+        {users && (
+          <Tasks
+            tasks={unsolvedTasks}
+            selectTask={selectTask}
+            taskSolved={taskSolved}
+            setTaskMessage={setTaskMessage}
+            users={users}
+            clearSelectedTask={clearSelectedTask}
+          />
+        )}
+        {selectedTask !== null && (
+          <YourTask
+            task={selectedTask}
+            taskSolved={taskSolved}
+            setTaskMessage={setTaskMessage}
+            users={users}
+            clearSelectedTask={clearSelectedTask}
+          />
+        )}
+      </div> */}
+      {/* <Navbar /> */}
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <div className="mobile-users-page">
+              <Navbar />
+              <div className="mobile-container">
+                {user && users && (
+                  <Fragment>
+                    <div className="user-list-desktop">
+                      <NewUsers
+                        users={users}
+                        selectUser={selectUser}
+                        tasks={tasks}
+                        desktop={false}
+                        appUser={user}
+                      />
+                      <NewUsers
+                        users={users}
+                        selectUser={selectUser}
+                        tasks={tasks}
+                        desktop={false}
+                        appUser={user}
+                      />
+                      <NewUsers
+                        users={users}
+                        selectUser={selectUser}
+                        tasks={tasks}
+                        desktop={false}
+                        appUser={user}
+                      />
+                    </div>
+                  </Fragment>
+                )}
+              </div>
+            </div>
+          </Route>
+          <Route exact path="/chatpage" component={ChatPage} />
+        </Switch>
+      </Router>
+      <div className="desktop-page">
+        <Navbar />
+        <div className="desktop-container">
+          {user && users && (
+            <Fragment>
+              <div className="user-list-desktop">
+                <NewUsers
+                  users={users}
+                  selectUser={selectUser}
+                  tasks={tasks}
+                  desktop={true}
+                  appUser={user}
+                />
+                <NewUsers
+                  users={users}
+                  selectUser={selectUser}
+                  tasks={tasks}
+                  desktop={true}
+                  appUser={user}
+                />
+                <NewUsers
+                  users={users}
+                  selectUser={selectUser}
+                  tasks={tasks}
+                  desktop={true}
+                  appUser={user}
+                />
+              </div>
+              <hr />
+              {selectedUser ? (
+                <Chat
+                  selectedUser={selectedUser}
+                  newTask={newTask}
+                  appUser={user}
+                  socketId={selectedUser.socketId}
+                  usersTask={selectedUser.usersTask}
+                  tasks={tasks}
+                  taskSolved={taskSolved}
+                />
+              ) : (
+                <BlankChat />
+              )}
+            </Fragment>
+          )}
+        </div>
       </div>
-      {users && (
-        <Users
-          users={users}
-          appUser={user}
-          selectedUser={selectedUser}
-          selectUser={selectUser}
-          clearSelectedUser={clearSelectedUser}
-          newTask={newTask}
-          tasks={tasks}
-          taskSolved={taskSolved}
-          setTaskMessage={setTaskMessage}
-        />
-      )}
-      {selectedUser !== null && !selectedUser.usersTask && (
-        <TaskForm
-          user={selectedUser}
-          newTask={newTask}
-          appUser={user}
-          socketId={selectedUser.socketId}
-          clearSelectedUser={clearSelectedUser}
-          setTaskMessage={setTaskMessage}
-        />
-      )}
-      {selectedUser !== null && selectedUser.usersTask && (
-        <h4 className="task-form text-center">
-          Du hast {selectedUser.name} schon eine Aufgabe geschickt. Warte bis
-          die Aufgabe gelöst ist, dann kannst du eine neue schicken.
-        </h4>
-      )}
-      {users && (
-        <Tasks
-          tasks={unsolvedTasks}
-          selectTask={selectTask}
-          taskSolved={taskSolved}
-          setTaskMessage={setTaskMessage}
-          users={users}
-          clearSelectedTask={clearSelectedTask}
-        />
-      )}
-      {selectedTask !== null && (
-        <YourTask
-          task={selectedTask}
-          taskSolved={taskSolved}
-          setTaskMessage={setTaskMessage}
-          users={users}
-          clearSelectedTask={clearSelectedTask}
-        />
-      )}
-    </div>
+    </Fragment>
   );
 };
 
@@ -203,6 +312,7 @@ const mapStateToProps = (state) => ({
   points: state.tasks.points,
   unsolvedTasks: state.tasks.unsolvedTasks,
   selectedTask: state.tasks.selectedTask,
+  fromChat: state.auth.fromChat,
 });
 
 Home.propTypes = {
@@ -223,6 +333,7 @@ Home.propTypes = {
   addPoint: PropTypes.func.isRequired,
   selectTask: PropTypes.func.isRequired,
   clearSelectedTask: PropTypes.func.isRequired,
+  clearFromChat: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -243,4 +354,5 @@ export default connect(mapStateToProps, {
   addPoint,
   selectTask,
   clearSelectedTask,
+  clearFromChat,
 })(Home);

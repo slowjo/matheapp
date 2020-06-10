@@ -33,7 +33,7 @@ const Navbar = ({ logout, isAuthenticated, user, socket }) => {
 
   return (
     <div className="navbar">
-      <h1>MatheApp</h1>
+      <h1>MathsApp</h1>
       <ul>{isAuthenticated ? authLinks : guestLinks}</ul>
     </div>
   );

@@ -8,6 +8,8 @@ import {
   SET_SOCKET,
   LOGOUT,
   CLEAR_ERRORS,
+  SET_FROM_CHAT,
+  CLEAR_FROM_CHAT,
 } from "../actions/types";
 
 const initialState = {
@@ -16,6 +18,7 @@ const initialState = {
   loading: true,
   user: null,
   socket: null,
+  fromChat: false,
   error: null,
 };
 
@@ -55,11 +58,22 @@ const auth = (state = initialState, action) => {
         user: null,
         socket: null,
         error: action.payload,
+        fromChat: false,
       };
     case CLEAR_ERRORS:
       return {
         ...state,
         error: null,
+      };
+    case SET_FROM_CHAT:
+      return {
+        ...state,
+        fromChat: true,
+      };
+    case CLEAR_FROM_CHAT:
+      return {
+        ...state,
+        fromChat: false,
       };
     default:
       return state;

@@ -47,6 +47,11 @@ const users = (state = initialState, action) => {
             ? { ...user, online: true, socketId: action.payload.socketId }
             : user
         ),
+        selectedUser:
+          state.selectedUser !== null &&
+          state.selectedUser._id === action.payload._id
+            ? { ...state.selectedUser, online: true }
+            : { ...state.selectedUser },
       };
     case USER_GONE_OFFLINE:
       return {
@@ -56,6 +61,11 @@ const users = (state = initialState, action) => {
             ? { ...user, online: false, socketId: null }
             : user
         ),
+        selectedUser:
+          state.selectedUser !== null &&
+          state.selectedUser._id === action.payload._id
+            ? { ...state.selectedUser, online: false }
+            : { ...state.selectedUser },
       };
     case USERS_ERROR:
       return {

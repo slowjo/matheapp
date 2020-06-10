@@ -9,6 +9,8 @@ import {
   LOGOUT,
   CLEAR_ERRORS,
   SET_TASKS,
+  SET_FROM_CHAT,
+  CLEAR_FROM_CHAT,
 } from "./types";
 
 // const devurl = "http://localhost:9090/";
@@ -133,4 +135,14 @@ export const logout = () => ({
 // Clear Errors
 export const clearErrors = () => ({
   type: CLEAR_ERRORS,
+});
+
+// Set From Chat
+export const setFromChat = () => ({
+  type: SET_FROM_CHAT,
+});
+
+// Clear From Chat
+export const clearFromChat = () => ({
+  type: CLEAR_FROM_CHAT,
 });

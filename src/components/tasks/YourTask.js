@@ -8,19 +8,22 @@ const YourTask = ({
   setTaskMessage,
   users,
   clearSelectedTask,
+  selectedUser,
 }) => {
   // let socketId;
-  const [socketId, setSocketId] = useState(null);
+  // const [socketId, setSocketId] = useState(null);
+  const [socketId, setSocketId] = useState(selectedUser.socketId);
   let userDummy;
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
+  const [user, setUser] = useState(selectedUser);
 
-  useEffect(() => {
-    userDummy = users.find((item) => item._id === task.from);
-    setUser(userDummy);
-    setSocketId(userDummy.socketId);
-    console.log(userDummy);
-    console.log(userDummy.name);
-  }, [users]);
+  // useEffect(() => {
+  //   userDummy = users.find((item) => item._id === task.from);
+  //   setUser(userDummy);
+  //   setSocketId(userDummy.socketId);
+  //   console.log(userDummy);
+  //   console.log(userDummy.name);
+  // }, [users]);
 
   const [result, setResult] = useState("");
   const onChange = (e) => {
@@ -34,13 +37,14 @@ const YourTask = ({
     if (task.type === "multiplication") {
       console.log("its a multiplication");
       if (parseInt(result) === task.numberOne * task.numberTwo) {
-        // alert("Richtig, gut gemacht!");
-        setTaskMessage("Richtig, gut gemacht!");
+        alert("Richtig, gut gemacht!");
+        // setTaskMessage("Richtig, gut gemacht!");
         taskSolved(task, parseInt(result), socketId);
         setResult("");
-        clearSelectedTask();
+        // clearSelectedTask();
       } else {
-        setTaskMessage("Leider falsch, probier es nochmal!");
+        // setTaskMessage("Leider falsch, probier es nochmal!");
+        alert("Leider falsch, probier es nochmal!");
         setResult("");
       }
     }
@@ -51,7 +55,7 @@ const YourTask = ({
       {/* <h2 className="text-center">{from} hat dir eine Aufgabe gestellt!</h2> */}
       <form onSubmit={onSubmit}>
         <div className="text-center">
-          <h4 className="text-center">Von {user && user.name}:</h4>
+          {/* <h4 className="text-center">Von {user && user.name}:</h4> */}
           <span className="font-30">
             {task.numberOne} &times; {task.numberTwo} ={" "}
           </span>
@@ -62,7 +66,7 @@ const YourTask = ({
             value={result}
             onChange={onChange}
           />
-          <button type="submit" className="btn btn-round">
+          <button type="submit" className="btn send-btn-block">
             <i className="fas fa-paper-plane"></i>
           </button>
         </div>

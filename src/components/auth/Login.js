@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { login, clearErrors } from "../../actions/authActions";
 import PropTypes from "prop-types";
+import Navbar from "../layout/Navbar";
 
 const Login = ({ login, isAuthenticated, error, history, clearErrors }) => {
   useEffect(() => {
@@ -41,32 +42,35 @@ const Login = ({ login, isAuthenticated, error, history, clearErrors }) => {
   };
 
   return (
-    <div className="form-container">
-      <h2 className="text-center">Melde dich an</h2>
-      <form onSubmit={onSubmit}>
-        <div className="form-group">
-          <label htmlFor="name">Name</label>
-          <input
-            type="text"
-            name="name"
-            value={name}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label htmlFor="password">Passwort</label>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={onChange}
-            required
-          />
-        </div>
-        <input type="submit" value="Anmelden" className="btn btn-block" />
-      </form>
-    </div>
+    <Fragment>
+      <Navbar />
+      <div className="form-container">
+        <h2 className="text-center">Melde dich an</h2>
+        <form onSubmit={onSubmit}>
+          <div className="form-group">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              name="name"
+              value={name}
+              onChange={onChange}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Passwort</label>
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={onChange}
+              required
+            />
+          </div>
+          <input type="submit" value="Anmelden" className="btn btn-block" />
+        </form>
+      </div>
+    </Fragment>
   );
 };
 

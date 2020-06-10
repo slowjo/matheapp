@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { clearSelectedUser } from "../../actions/usersActions";
 
-const TaskForm = ({
-  user,
-  appUser,
+const ChatNewTask = ({
+  selectedUser,
   newTask,
+  appUser,
   socketId,
-  clearSelectedUser,
-  setTaskMessage,
+  usersTask,
 }) => {
   const [task, setTask] = useState({
     numberOne: "",
@@ -42,21 +40,33 @@ const TaskForm = ({
         numberOne,
         numberTwo,
         from: appUser._id,
-        to: user._id,
+        to: selectedUser._id,
         toSocket: socketId,
       });
-      // clearSelectedUser();
-      // setTaskMessage("Aufgabe abgeschickt");
-      alert("Aufgabe abgeschickt");
+      setTask({
+        numberOne: "",
+        numberTwo: "",
+      });
+      //   clearSelectedUser();
+      //   setTaskMessage("Aufgabe abgeschickt");
     }
   };
 
   return (
-    <div className="task-form">
-      <h4 className="text-center">Schicke {user.name} eine Aufgabe</h4>
+    <div className="chat-input">
+      {!usersTask ? (
+        <div className="text-center">
+          Schicke {selectedUser.name} eine Aufgabe!
+        </div>
+      ) : (
+        <div className="text-center">
+          Du hast {selectedUser.name} eine Aufgabe geschickt.
+        </div>
+      )}
       <form onSubmit={onSubmit}>
         <div className="text-center py-10">
           <input
+            disabled={usersTask !== null}
             type="number"
             min="0"
             name="numberOne"
@@ -66,6 +76,7 @@ const TaskForm = ({
           />{" "}
           <span className="font-30">&times;</span>{" "}
           <input
+            disabled={usersTask !== null}
             type="number"
             min="0"
             name="numberTwo"
@@ -76,13 +87,22 @@ const TaskForm = ({
           <span className="font-30">= ?</span>
           {/* <input type="submit" value="Abschicken" className="btn" /> */}
           {/* <input type="submit" className="btn" value="Yay" /> */}
-          <button type="submit" className="btn btn-round">
-            <i className="fas fa-paper-plane"></i>
-          </button>
+          {!usersTask ? (
+            <button type="submit" className="btn send-btn">
+              <i className="fas fa-paper-plane"></i>
+            </button>
+          ) : (
+            <div className="btn send-btn-off">
+              <i className="fas fa-paper-plane"></i>
+            </div>
+          )}
         </div>
       </form>
+      {/* <div className="send-btn">
+        <i className="fas fa-paper-plane"></i>
+      </div> */}
     </div>
   );
 };
 
-export default TaskForm;
+export default ChatNewTask;
