@@ -108,7 +108,8 @@ const Home = ({
 
           // Set Task Message For Each Task In user.taskMessages
           user.taskMessages.forEach((taskMessageItem) => {
-            setTaskMessage(taskMessageItem.message);
+            // setTaskMessage(taskMessageItem.message);
+            setTaskMessage(taskMessageItem);
           });
         }, 1000);
       }
@@ -227,7 +228,7 @@ const Home = ({
                         desktop={false}
                         appUser={user}
                       />
-                      <NewUsers
+                      {/* <NewUsers
                         users={users}
                         selectUser={selectUser}
                         tasks={tasks}
@@ -240,7 +241,7 @@ const Home = ({
                         tasks={tasks}
                         desktop={false}
                         appUser={user}
-                      />
+                      /> */}
                     </div>
                   </Fragment>
                 )}
@@ -263,7 +264,7 @@ const Home = ({
                   desktop={true}
                   appUser={user}
                 />
-                <NewUsers
+                {/* <NewUsers
                   users={users}
                   selectUser={selectUser}
                   tasks={tasks}
@@ -276,7 +277,7 @@ const Home = ({
                   tasks={tasks}
                   desktop={true}
                   appUser={user}
-                />
+                /> */}
               </div>
               <hr />
               {selectedUser ? (
@@ -288,6 +289,7 @@ const Home = ({
                   usersTask={selectedUser.usersTask}
                   tasks={tasks}
                   taskSolved={taskSolved}
+                  setTaskMessage={setTaskMessage}
                 />
               ) : (
                 <BlankChat />

@@ -37,6 +37,9 @@ const NewUsers = ({ users, selectUser, tasks, desktop, appUser }) => {
               tasks.unsolvedTasks.map((task) =>
                 task.from === user._id ? messageList.push(task) : null
               );
+              tasks.taskMessages.map((task) =>
+                task.from === user._id ? messageList.push(task) : null
+              );
               return (
                 <NewSingleUser
                   key={user._id}

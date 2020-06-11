@@ -21,9 +21,17 @@ a,
 a:visited,
 a:active,
 a:left,
+a:checked,
+a:any-link,
+a:hover,
+a:link,
 .user-link:visited,
 .user-link:active,
-.user-link:left {
+.user-link:left,
+.user-link:checked,
+.user-link:any-link,
+.user-link:hover,
+.user-link:link {
   color: inherit;
   text-decoration: none;
 }
@@ -73,6 +81,7 @@ a:left,
 
 .form-container {
   max-width: 350px;
+  padding: 30px;
   margin: auto;
 }
 
@@ -434,6 +443,8 @@ label {
 
 .chat-container {
   display: grid;
+  height: calc(100vh - 59px);
+  height: calc((var(--vh, 1vh) * 100) - 59px);
 }
 
 .chat {

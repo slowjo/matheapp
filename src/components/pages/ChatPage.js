@@ -4,7 +4,7 @@ import { setFromChat } from "../../actions/authActions";
 import PropTypes from "prop-types";
 import Chat from "../chat/Chat";
 import ChatPageTopBar from "../layout/ChatPageTopBar";
-import { newTask, taskSolved } from "../../actions/taskActions";
+import { newTask, taskSolved, setTaskMessage } from "../../actions/taskActions";
 
 const ChatPage = ({
   setFromChat,
@@ -14,6 +14,7 @@ const ChatPage = ({
   tasks,
   user,
   users,
+  setTaskMessage,
 }) => {
   return (
     <div>
@@ -25,6 +26,7 @@ const ChatPage = ({
         tasks={tasks}
         appUser={user}
         socketId={selectedUser.socketId}
+        setTaskMessage={setTaskMessage}
       />
     </div>
   );
@@ -41,8 +43,12 @@ ChatPage.propTypes = {
   setFromChat: PropTypes.func.isRequired,
   newTask: PropTypes.func.isRequired,
   taskSolved: PropTypes.func.isRequired,
+  setTaskMessage: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, { setFromChat, newTask, taskSolved })(
-  ChatPage
-);
+export default connect(mapStateToProps, {
+  setFromChat,
+  newTask,
+  taskSolved,
+  setTaskMessage,
+})(ChatPage);

@@ -37,14 +37,25 @@ const YourTask = ({
     if (task.type === "multiplication") {
       console.log("its a multiplication");
       if (parseInt(result) === task.numberOne * task.numberTwo) {
-        alert("Richtig, gut gemacht!");
-        // setTaskMessage("Richtig, gut gemacht!");
+        // alert("Richtig, gut gemacht!");
+        setTaskMessage({
+          message: "Richtig, gut gemacht!",
+          from: task.from,
+          type: "message",
+          date: new Date(),
+        });
         taskSolved(task, parseInt(result), socketId);
         setResult("");
         // clearSelectedTask();
       } else {
         // setTaskMessage("Leider falsch, probier es nochmal!");
-        alert("Leider falsch, probier es nochmal!");
+        // alert("Leider falsch, probier es nochmal!");
+        setTaskMessage({
+          message: "Leider falsch, probier es nochmal!",
+          from: task.from,
+          type: "message",
+          date: new Date(),
+        });
         setResult("");
       }
     }

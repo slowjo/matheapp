@@ -12,6 +12,7 @@ const Chat = ({
   usersTask,
   tasks,
   taskSolved,
+  setTaskMessage,
 }) => {
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -51,7 +52,10 @@ const Chat = ({
     const received = tasks.unsolvedTasks.filter(
       (task) => task.from === selectedUser._id
     );
-    setChatMessages([...sent, ...received]);
+    const notificationMessages = tasks.taskMessages.filter(
+      (task) => task.from === selectedUser._id
+    );
+    setChatMessages([...sent, ...received, ...notificationMessages]);
 
     let vh = window.innerHeight * 0.01;
 
@@ -73,7 +77,7 @@ const Chat = ({
     <div className="chat-container">
       <div className="chat" ref={ref}>
         <div className="chat-item chat-date">HEUTE</div>
-        <div className="chat-item you">
+        {/* <div className="chat-item you">
           <div className="chat-item-message">Chat Message</div>
           <div className="chat-item-info">15:30</div>
         </div>
@@ -106,7 +110,7 @@ const Chat = ({
             Lorem, ipsum dolor sit amet consectetur adipisicing.
           </div>
           <div className="chat-item-info">19:30</div>
-        </div>
+        </div> */}
         {chatMessages.sort(sortFunc).map((message) => (
           <div
             key={message._id}
@@ -121,6 +125,7 @@ const Chat = ({
                 task={message}
                 taskSolved={taskSolved}
                 selectedUser={selectedUser}
+                setTaskMessage={setTaskMessage}
               />
             ) : (
               <TheirTask task={message} />

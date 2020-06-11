@@ -114,10 +114,11 @@ export const sentTaskSolved = (task) => (dispatch) => {
 export const setTaskMessage = (message) => (dispatch) => {
   // const _id = uuid();
   const _id = new Date().toISOString();
+  message._id = _id;
 
   dispatch({
     type: SET_TASK_MESSAGE,
-    payload: { message, _id },
+    payload: message,
   });
 
   setTimeout(
@@ -126,9 +127,28 @@ export const setTaskMessage = (message) => (dispatch) => {
         type: REMOVE_TASK_MESSAGE,
         payload: _id,
       }),
-    5000
+    15000
   );
 };
+
+// export const setTaskMessage = (message) => (dispatch) => {
+//   // const _id = uuid();
+//   const _id = new Date().toISOString();
+
+//   dispatch({
+//     type: SET_TASK_MESSAGE,
+//     payload: { message, _id },
+//   });
+
+//   setTimeout(
+//     () =>
+//       dispatch({
+//         type: REMOVE_TASK_MESSAGE,
+//         payload: _id,
+//       }),
+//     5000
+//   );
+// };
 
 // Get task message
 export const getTaskMessage = () => async (dispatch) => {
@@ -147,7 +167,7 @@ export const getTaskMessage = () => async (dispatch) => {
     }
     const resData = await res.json();
 
-    dispatch(setTaskMessage(resData.message));
+    dispatch(setTaskMessage(resData));
   } catch (err) {
     dispatch({
       type: TASK_ERROR,
@@ -155,6 +175,31 @@ export const getTaskMessage = () => async (dispatch) => {
     });
   }
 };
+
+// export const getTaskMessage = () => async (dispatch) => {
+//   try {
+//     const res = await fetch(
+//       // "http://localhost:9090/tasks/getmessage"
+//       `${produrl}tasks/getmessage`,
+//       {
+//         headers: {
+//           "x-auth-token": localStorage.token,
+//         },
+//       }
+//     );
+//     if (res.status !== 200) {
+//       throw new Error("Error getting message");
+//     }
+//     const resData = await res.json();
+
+//     dispatch(setTaskMessage(resData.message));
+//   } catch (err) {
+//     dispatch({
+//       type: TASK_ERROR,
+//       payload: err.message,
+//     });
+//   }
+// };
 
 // Add a point
 export const addPoint = () => ({

@@ -76,7 +76,8 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
           {message ? (
             <div className="user-status">
               {message.to === user._id && "Du: "}
-              {message.type}
+              {message.type === "multiplication" && message.type}
+              {message.type === "message" && message.message}
             </div>
           ) : (
             <div className="user-status">Keine Nachrichten von {user.name}</div>
