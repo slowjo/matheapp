@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import ChatNewTask from "./ChatNewTask";
 import YourTask from "../tasks/YourTask";
 import TheirTask from "../tasks/TheirTask";
@@ -16,6 +16,8 @@ const Chat = ({
 }) => {
   const [chatMessages, setChatMessages] = useState([]);
 
+  const [groupedChatMessages, setGroupedChatMessages] = useState({});
+
   const [alreadySent, setAlreadySent] = useState(null);
 
   const addZero = (i) => {
@@ -30,6 +32,14 @@ const Chat = ({
     const h = addZero(d.getHours());
     const m = addZero(d.getMinutes());
     return h + ":" + m;
+  };
+
+  const getDayMonthYear = (someDateString) => {
+    const d = new Date(someDateString);
+    const day = addZero(d.getDate());
+    const month = addZero(d.getMonth() + 1);
+    const year = addZero(d.getFullYear());
+    return day + "/" + month + "/" + year;
   };
 
   const sortFunc = (a, b) => {
@@ -56,19 +66,46 @@ const Chat = ({
       (task) => task.from === selectedUser._id
     );
     setChatMessages([...sent, ...received, ...notificationMessages]);
+  }, [tasks, selectedUser]);
 
+  useEffect(() => {
     let vh = window.innerHeight * 0.01;
 
     document.documentElement.style.setProperty("--vh", `${vh}px`);
-  }, [tasks, selectedUser]);
+  }, []);
 
   const ref = React.createRef();
 
   useEffect(() => {
-    // ref.current.scrollTop = ref.current.height;
-    // console.log(ref.current.innerHeight);
-    // console.log(ref.current);
     ref.current.scrollTop = window.innerHeight;
+
+    const thisDate = new Date().getDate();
+
+    const messagesWithDateDay = chatMessages.map((message) => {
+      const messageDate = new Date(message.date).getDate();
+
+      return {
+        ...message,
+        theDateDay:
+          messageDate === thisDate
+            ? "Heute"
+            : getDayMonthYear(new Date(message.date)),
+      };
+    });
+
+    console.log(
+      messagesWithDateDay.reduce((rv, x) => {
+        (rv[x["theDateDay"]] = rv[x["theDateDay"]] || []).push(x);
+        return rv;
+      }, {})
+    );
+
+    setGroupedChatMessages(
+      messagesWithDateDay.reduce((rv, x) => {
+        (rv[x["theDateDay"]] = rv[x["theDateDay"]] || []).push(x);
+        return rv;
+      }, {})
+    );
   }, [chatMessages]);
 
   // console.log("chatMessages: ", chatMessages);
@@ -76,7 +113,7 @@ const Chat = ({
   return (
     <div className="chat-container">
       <div className="chat" ref={ref}>
-        <div className="chat-item chat-date">HEUTE</div>
+        {/* <div className="chat-item chat-date">HEUTE</div> */}
         {/* <div className="chat-item you">
           <div className="chat-item-message">Chat Message</div>
           <div className="chat-item-info">15:30</div>
@@ -111,7 +148,38 @@ const Chat = ({
           </div>
           <div className="chat-item-info">19:30</div>
         </div> */}
-        {chatMessages.sort(sortFunc).map((message) => (
+        {Object.keys(groupedChatMessages).map((messageDate) => (
+          <Fragment key={new Date().toISOString()}>
+            <div className="chat-item chat-date">{messageDate}</div>
+            {groupedChatMessages[messageDate]
+              .sort(sortFunc)
+              .map((messageItem) => (
+                <div
+                  key={messageItem._id}
+                  className={
+                    "chat-item " +
+                    (messageItem.from === selectedUser._id ? "them" : "you")
+                  }
+                >
+                  {messageItem.from === selectedUser._id &&
+                  messageItem.type === "multiplication" ? (
+                    <YourTask
+                      task={messageItem}
+                      taskSolved={taskSolved}
+                      selectedUser={selectedUser}
+                      setTaskMessage={setTaskMessage}
+                    />
+                  ) : (
+                    <TheirTask task={messageItem} />
+                  )}
+                  <div className="chat-item-info">
+                    {getHourMins(messageItem.date)}{" "}
+                  </div>
+                </div>
+              ))}
+          </Fragment>
+        ))}
+        {/* {chatMessages.sort(sortFunc).map((message) => (
           <div
             key={message._id}
             className={
@@ -132,7 +200,7 @@ const Chat = ({
             )}
             <div className="chat-item-info">{getHourMins(message.date)} </div>
           </div>
-        ))}
+        ))} */}
       </div>
       <ChatNewTask
         selectedUser={selectedUser}

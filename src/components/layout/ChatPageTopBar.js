@@ -13,7 +13,7 @@ const ChatPageTopBar = ({ selectedUser }) => {
       <div className="top-bar-info">
         <div className="top-bar-user-name">{selectedUser.name}</div>
         <div className="top-bar-last-seen">
-          {selectedUser.online ? "online" : "vor 3 Stunden"}
+          {selectedUser.online ? "online" : "offline"}
         </div>
       </div>
     </div>
