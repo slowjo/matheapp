@@ -38,6 +38,7 @@ import {
   addPoint,
   selectTask,
   clearSelectedTask,
+  setSentChatMessage,
 } from "../../actions/taskActions";
 import PropTypes from "prop-types";
 import openSocket from "socket.io-client";
@@ -73,6 +74,7 @@ const Home = ({
   clearSelectedTask,
   fromChat,
   clearFromChat,
+  setSentChatMessage,
 }) => {
   useEffect(() => {
     getUser();
@@ -80,7 +82,7 @@ const Home = ({
 
   useEffect(() => {
     if (!fromChat) {
-      if (isAuthenticated) {
+      if (isAuthenticated && user) {
         const newSocket = openSocket.connect(
           // "http://localhost:9090",
           "https://boiling-oasis-15718.herokuapp.com",
@@ -89,12 +91,16 @@ const Home = ({
           }
         );
         setSocket(newSocket);
-        getAllUsers();
+        getAllUsers({
+          sentTasks: user.sentTasks,
+          unsolvedTasks: user.unsolvedTasks,
+          appUserId: user._id,
+        });
       }
     } else {
       setTimeout(() => clearFromChat(), 500);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated, user]);
 
   useEffect(() => {
     if (!fromChat) {
@@ -154,6 +160,66 @@ const Home = ({
       });
     }
   }, [socket, loadingUsers]);
+
+  const [sortedUsers, setSortedUsers] = useState(null);
+
+  const sortFunc = (a, b) => {
+    if (a.date < b.date) {
+      return -1;
+    }
+    if (a.date > b.date) {
+      return 1;
+    }
+    return 0;
+  };
+
+  const sortFuncTwo = (a, b) => {
+    if (a.newestMessage.date < b.newestMessage.date) {
+      return 1;
+    }
+    if (a.newestMessage.date > b.newestMessage.date) {
+      return -1;
+    }
+    return 0;
+  };
+
+  const sortAndAddArray = (usersArray) => {
+    return usersArray.map((item) => {
+      if (item.messageList) {
+        const sortedMessageList = item.messageList.sort(sortFunc);
+        if (sortedMessageList.length > 0) {
+          return {
+            ...item,
+            newestMessage: sortedMessageList[sortedMessageList.length - 1],
+          };
+        } else {
+          return {
+            ...item,
+            newestMessage: { message: "No message", date: "-1" },
+          };
+        }
+      } else {
+        return {
+          ...item,
+          newestMessage: { message: "No message", date: "-1" },
+        };
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (users) {
+      setSortedUsers(sortAndAddArray(users).sort(sortFuncTwo));
+    }
+  }, [users]);
+
+  const [currUser, setCurrUser] = useState(null);
+
+  useEffect(() => {
+    if (users && selectedUser) {
+      setCurrUser(users.find((user) => user._id === selectedUser._id));
+    }
+  }, [users, selectedUser]);
 
   return (
     <Fragment>
@@ -221,27 +287,15 @@ const Home = ({
                 {user && users && (
                   <Fragment>
                     <div className="user-list-desktop">
-                      <NewUsers
-                        users={users}
-                        selectUser={selectUser}
-                        tasks={tasks}
-                        desktop={false}
-                        appUser={user}
-                      />
-                      {/* <NewUsers
-                        users={users}
-                        selectUser={selectUser}
-                        tasks={tasks}
-                        desktop={false}
-                        appUser={user}
-                      />
-                      <NewUsers
-                        users={users}
-                        selectUser={selectUser}
-                        tasks={tasks}
-                        desktop={false}
-                        appUser={user}
-                      /> */}
+                      {sortedUsers && (
+                        <NewUsers
+                          users={sortedUsers}
+                          selectUser={selectUser}
+                          tasks={tasks}
+                          desktop={false}
+                          appUser={user}
+                        />
+                      )}
                     </div>
                   </Fragment>
                 )}
@@ -257,39 +311,28 @@ const Home = ({
           {user && users && (
             <Fragment>
               <div className="user-list-desktop">
-                <NewUsers
-                  users={users}
-                  selectUser={selectUser}
-                  tasks={tasks}
-                  desktop={true}
-                  appUser={user}
-                />
-                {/* <NewUsers
-                  users={users}
-                  selectUser={selectUser}
-                  tasks={tasks}
-                  desktop={true}
-                  appUser={user}
-                />
-                <NewUsers
-                  users={users}
-                  selectUser={selectUser}
-                  tasks={tasks}
-                  desktop={true}
-                  appUser={user}
-                /> */}
+                {sortedUsers && (
+                  <NewUsers
+                    users={sortedUsers}
+                    selectUser={selectUser}
+                    tasks={tasks}
+                    desktop={true}
+                    appUser={user}
+                  />
+                )}
               </div>
               <hr />
-              {selectedUser ? (
+              {currUser ? (
                 <Chat
-                  selectedUser={selectedUser}
+                  selectedUser={currUser}
                   newTask={newTask}
                   appUser={user}
-                  socketId={selectedUser.socketId}
+                  socketId={currUser.socketId}
                   usersTask={selectedUser.usersTask}
                   tasks={tasks}
                   taskSolved={taskSolved}
                   setTaskMessage={setTaskMessage}
+                  setSentChatMessage={setSentChatMessage}
                 />
               ) : (
                 <BlankChat />
@@ -336,6 +379,7 @@ Home.propTypes = {
   selectTask: PropTypes.func.isRequired,
   clearSelectedTask: PropTypes.func.isRequired,
   clearFromChat: PropTypes.func.isRequired,
+  setSentChatMessage: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -357,4 +401,5 @@ export default connect(mapStateToProps, {
   selectTask,
   clearSelectedTask,
   clearFromChat,
+  setSentChatMessage,
 })(Home);

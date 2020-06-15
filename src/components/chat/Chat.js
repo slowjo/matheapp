@@ -13,6 +13,7 @@ const Chat = ({
   tasks,
   taskSolved,
   setTaskMessage,
+  setSentChatMessage,
 }) => {
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -52,6 +53,22 @@ const Chat = ({
     return 0;
   };
 
+  // useEffect(() => {
+  //   const sent = tasks.sentTasks.filter((task) => task.to === selectedUser._id);
+  //   if (sent.length > 0) {
+  //     setAlreadySent(sent[0]);
+  //   } else {
+  //     setAlreadySent(null);
+  //   }
+  //   const received = tasks.unsolvedTasks.filter(
+  //     (task) => task.from === selectedUser._id
+  //   );
+  //   const notificationMessages = tasks.taskMessages.filter(
+  //     (task) => task.from === selectedUser._id
+  //   );
+  //   setChatMessages([...sent, ...received, ...notificationMessages]);
+  // }, [tasks, selectedUser]);
+
   useEffect(() => {
     const sent = tasks.sentTasks.filter((task) => task.to === selectedUser._id);
     if (sent.length > 0) {
@@ -59,13 +76,7 @@ const Chat = ({
     } else {
       setAlreadySent(null);
     }
-    const received = tasks.unsolvedTasks.filter(
-      (task) => task.from === selectedUser._id
-    );
-    const notificationMessages = tasks.taskMessages.filter(
-      (task) => task.from === selectedUser._id
-    );
-    setChatMessages([...sent, ...received, ...notificationMessages]);
+    setChatMessages(selectedUser.messageList);
   }, [tasks, selectedUser]);
 
   useEffect(() => {
@@ -81,31 +92,33 @@ const Chat = ({
 
     const thisDate = new Date().getDate();
 
-    const messagesWithDateDay = chatMessages.map((message) => {
-      const messageDate = new Date(message.date).getDate();
+    if (chatMessages) {
+      const messagesWithDateDay = chatMessages.map((message) => {
+        const messageDate = new Date(message.date).getDate();
 
-      return {
-        ...message,
-        theDateDay:
-          messageDate === thisDate
-            ? "Heute"
-            : getDayMonthYear(new Date(message.date)),
-      };
-    });
+        return {
+          ...message,
+          theDateDay:
+            messageDate === thisDate
+              ? "Heute"
+              : getDayMonthYear(new Date(message.date)),
+        };
+      });
 
-    console.log(
-      messagesWithDateDay.reduce((rv, x) => {
-        (rv[x["theDateDay"]] = rv[x["theDateDay"]] || []).push(x);
-        return rv;
-      }, {})
-    );
+      console.log(
+        messagesWithDateDay.reduce((rv, x) => {
+          (rv[x["theDateDay"]] = rv[x["theDateDay"]] || []).push(x);
+          return rv;
+        }, {})
+      );
 
-    setGroupedChatMessages(
-      messagesWithDateDay.reduce((rv, x) => {
-        (rv[x["theDateDay"]] = rv[x["theDateDay"]] || []).push(x);
-        return rv;
-      }, {})
-    );
+      setGroupedChatMessages(
+        messagesWithDateDay.reduce((rv, x) => {
+          (rv[x["theDateDay"]] = rv[x["theDateDay"]] || []).push(x);
+          return rv;
+        }, {})
+      );
+    }
   }, [chatMessages]);
 
   // console.log("chatMessages: ", chatMessages);
@@ -113,41 +126,6 @@ const Chat = ({
   return (
     <div className="chat-container">
       <div className="chat" ref={ref}>
-        {/* <div className="chat-item chat-date">HEUTE</div> */}
-        {/* <div className="chat-item you">
-          <div className="chat-item-message">Chat Message</div>
-          <div className="chat-item-info">15:30</div>
-        </div>
-        <div className="chat-item them">
-          <div className="chat-item-message">Chat Message</div>
-          <div className="chat-item-info">15:30</div>
-        </div>
-        <div className="chat-item you">
-          <div className="chat-item-message">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore
-            quia nisi soluta quidem, ipsam nostrum.
-          </div>
-          <div className="chat-item-info">15:50</div>
-        </div>
-        <div className="chat-item them">
-          <div className="chat-item-message">
-            Lorem, ipsum dolor sit amet consectetur adipisicing.
-          </div>
-          <div className="chat-item-info">17:30</div>
-        </div>
-        <div className="chat-item you">
-          <div className="chat-item-message">
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore
-            quia nisi soluta quidem, ipsam nostrum.
-          </div>
-          <div className="chat-item-info">18:10</div>
-        </div>
-        <div className="chat-item them">
-          <div className="chat-item-message">
-            Lorem, ipsum dolor sit amet consectetur adipisicing.
-          </div>
-          <div className="chat-item-info">19:30</div>
-        </div> */}
         {Object.keys(groupedChatMessages).map((messageDate) => (
           <Fragment key={new Date().toISOString()}>
             <div className="chat-item chat-date">{messageDate}</div>
@@ -168,6 +146,8 @@ const Chat = ({
                       taskSolved={taskSolved}
                       selectedUser={selectedUser}
                       setTaskMessage={setTaskMessage}
+                      appUser={appUser}
+                      setSentChatMessage={setSentChatMessage}
                     />
                   ) : (
                     <TheirTask task={messageItem} />
@@ -179,28 +159,6 @@ const Chat = ({
               ))}
           </Fragment>
         ))}
-        {/* {chatMessages.sort(sortFunc).map((message) => (
-          <div
-            key={message._id}
-            className={
-              "chat-item " +
-              (message.from === selectedUser._id ? "them" : "you")
-            }
-          >
-            {message.from === selectedUser._id &&
-            message.type === "multiplication" ? (
-              <YourTask
-                task={message}
-                taskSolved={taskSolved}
-                selectedUser={selectedUser}
-                setTaskMessage={setTaskMessage}
-              />
-            ) : (
-              <TheirTask task={message} />
-            )}
-            <div className="chat-item-info">{getHourMins(message.date)} </div>
-          </div>
-        ))} */}
       </div>
       <ChatNewTask
         selectedUser={selectedUser}

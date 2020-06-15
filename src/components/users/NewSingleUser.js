@@ -39,7 +39,7 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
 
   useEffect(() => {
     // console.log(messageList);
-    if (messageList.length > 0) {
+    if (messageList && messageList.length > 0) {
       const newestMessage = messageList[messageList.length - 1];
       //   console.log("newestMessage: ", newestMessage);
       setMessage(messageList.sort(sortFunc)[messageList.length - 1]);
@@ -49,6 +49,8 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
       setHourmins(
         getDayMonthYear(messageList.sort(sortFunc)[messageList.length - 1].date)
       );
+    } else {
+      setMessage(null);
     }
   }, [messageList]);
 

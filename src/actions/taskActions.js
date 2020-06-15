@@ -12,6 +12,9 @@ import {
   SELECT_TASK,
   CLEAR_SELECTED_TASK,
   CLEAR_USERS_TASK,
+  SET_CHAT_MESSAGE,
+  SET_SENT_CHAT_MESSAGE,
+  REMOVE_CHAT_MESSAGE,
 } from "./types";
 
 // const devurl = "http://localhost:9090/";
@@ -51,6 +54,11 @@ export const newTask = (task) => async (dispatch) => {
       type: NEW_TASK,
       payload: resData,
     });
+
+    dispatch({
+      type: SET_SENT_CHAT_MESSAGE,
+      payload: resData,
+    });
   } catch (err) {
     dispatch({
       type: TASK_ERROR,
@@ -60,10 +68,17 @@ export const newTask = (task) => async (dispatch) => {
 };
 
 // Receive New Task in realtime
-export const receiveNewTask = (task) => ({
-  type: NEW_TASK_RECEIVED,
-  payload: task,
-});
+export const receiveNewTask = (task) => (dispatch) => {
+  dispatch({
+    type: NEW_TASK_RECEIVED,
+    payload: task,
+  });
+
+  dispatch({
+    type: SET_CHAT_MESSAGE,
+    payload: task,
+  });
+};
 
 // Task Solved
 export const taskSolved = (task, result, fromSocketId) => async (dispatch) => {
@@ -89,6 +104,15 @@ export const taskSolved = (task, result, fromSocketId) => async (dispatch) => {
       type: TASK_SOLVED,
       payload: resData,
     });
+
+    // setTimeout(
+    //   () =>
+    dispatch({
+      type: REMOVE_CHAT_MESSAGE,
+      payload: resData._id.toString(),
+    });
+    //   500
+    // );
   } catch (err) {
     dispatch({
       type: TASK_ERROR,
@@ -108,23 +132,142 @@ export const sentTaskSolved = (task) => (dispatch) => {
     type: CLEAR_USERS_TASK,
     payload: task.to,
   });
+
+  setTimeout(
+    () =>
+      dispatch({
+        type: REMOVE_CHAT_MESSAGE,
+        payload: task._id,
+      }),
+    500
+  );
 };
 
 // Set and remove a task message
-export const setTaskMessage = (message) => (dispatch) => {
+export const setTaskMessage = (message, response, taskMessage) => (
+  dispatch
+) => {
   // const _id = uuid();
   const _id = new Date().toISOString();
   message._id = _id;
 
+  if (!response) {
+    dispatch({
+      type: SET_TASK_MESSAGE,
+      payload: message,
+    });
+
+    setTimeout(
+      () =>
+        dispatch({
+          type: REMOVE_TASK_MESSAGE,
+          payload: _id,
+        }),
+      15000
+    );
+
+    dispatch({
+      type: SET_CHAT_MESSAGE,
+      payload: message,
+    });
+
+    setTimeout(
+      () =>
+        dispatch({
+          type: REMOVE_CHAT_MESSAGE,
+          payload: _id,
+        }),
+      15000
+    );
+  } else {
+    const _id2 = new Date().toISOString() + 2;
+    const responseMessage = {
+      message: "  ...  ",
+      from: message.from,
+      type: "message",
+      date: new Date(),
+      _id: _id2,
+    };
+
+    if (taskMessage) {
+      taskMessage.date = new Date();
+
+      dispatch({
+        type: REMOVE_TASK_MESSAGE,
+        payload: taskMessage._id,
+      });
+      dispatch({
+        type: REMOVE_CHAT_MESSAGE,
+        payload: taskMessage._id,
+      });
+    }
+
+    setTimeout(() => {
+      dispatch({
+        type: SET_TASK_MESSAGE,
+        payload: responseMessage,
+      });
+      dispatch({
+        type: SET_CHAT_MESSAGE,
+        payload: responseMessage,
+      });
+      setTimeout(() => {
+        dispatch({
+          type: REMOVE_TASK_MESSAGE,
+          payload: _id2,
+        });
+        dispatch({
+          type: REMOVE_CHAT_MESSAGE,
+          payload: _id2,
+        });
+        dispatch({
+          type: SET_TASK_MESSAGE,
+          payload: message,
+        });
+        dispatch({
+          type: SET_CHAT_MESSAGE,
+          payload: message,
+        });
+        if (taskMessage) {
+          dispatch({
+            type: SET_TASK_MESSAGE,
+            payload: taskMessage,
+          });
+          dispatch({
+            type: SET_CHAT_MESSAGE,
+            payload: taskMessage,
+          });
+        }
+        setTimeout(() => {
+          dispatch({
+            type: REMOVE_TASK_MESSAGE,
+            payload: _id,
+          });
+          dispatch({
+            type: REMOVE_CHAT_MESSAGE,
+            payload: _id,
+          });
+        }, 15000);
+      }, 3000);
+    }, 1000);
+  }
+};
+
+// Set and remove a sent task message
+export const setSentChatMessage = (message) => (dispatch) => {
+  // const _id = uuid();
+  const _id = new Date().toISOString() + 1;
+  message._id = _id;
+
   dispatch({
-    type: SET_TASK_MESSAGE,
+    type: SET_SENT_CHAT_MESSAGE,
     payload: message,
   });
 
   setTimeout(
     () =>
       dispatch({
-        type: REMOVE_TASK_MESSAGE,
+        type: REMOVE_CHAT_MESSAGE,
         payload: _id,
       }),
     15000

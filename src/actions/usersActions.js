@@ -9,6 +9,7 @@ import {
   SET_POINTS,
   NEW_TASK,
   TASK_ERROR,
+  SET_MESSAGE_LISTS,
 } from "./types";
 
 // const devurl = "http://localhost:9090/";
@@ -18,7 +19,9 @@ import {
 const produrl = "https://boiling-oasis-15718.herokuapp.com/";
 
 // Get all users
-export const getAllUsers = () => async (dispatch) => {
+export const getAllUsers = ({ sentTasks, unsolvedTasks, appUserId }) => async (
+  dispatch
+) => {
   try {
     const res = await fetch(
       // "http://localhost:9090/users/allusers"
@@ -47,6 +50,15 @@ export const getAllUsers = () => async (dispatch) => {
     dispatch({
       type: SET_POINTS,
       payload: points,
+    });
+
+    dispatch({
+      type: SET_MESSAGE_LISTS,
+      payload: {
+        sentTasks: sentTasks,
+        unsolvedTasks: unsolvedTasks,
+        appUserId: appUserId,
+      },
     });
   } catch (err) {
     dispatch({

@@ -9,6 +9,8 @@ const YourTask = ({
   users,
   clearSelectedTask,
   selectedUser,
+  appUser,
+  setSentChatMessage,
 }) => {
   // let socketId;
   // const [socketId, setSocketId] = useState(null);
@@ -38,24 +40,45 @@ const YourTask = ({
       console.log("its a multiplication");
       if (parseInt(result) === task.numberOne * task.numberTwo) {
         // alert("Richtig, gut gemacht!");
-        setTaskMessage({
-          message: "Richtig, gut gemacht!",
-          from: task.from,
+        setSentChatMessage({
+          message: `${task.numberOne} x ${task.numberTwo} = ${result}`,
+          from: appUser._id,
+          to: task.from,
           type: "message",
           date: new Date(),
         });
+        setTaskMessage(
+          {
+            message: "Richtig, gut gemacht!",
+            from: task.from,
+            type: "message",
+            date: new Date(),
+          },
+          true
+        );
         taskSolved(task, parseInt(result), socketId);
         setResult("");
         // clearSelectedTask();
       } else {
         // setTaskMessage("Leider falsch, probier es nochmal!");
         // alert("Leider falsch, probier es nochmal!");
-        setTaskMessage({
-          message: "Leider falsch, probier es nochmal!",
-          from: task.from,
+        setSentChatMessage({
+          message: `${task.numberOne} x ${task.numberTwo} = ${result}`,
+          from: appUser._id,
+          to: task.from,
           type: "message",
           date: new Date(),
         });
+        setTaskMessage(
+          {
+            message: "Leider falsch, probier es nochmal!",
+            from: task.from,
+            type: "message",
+            date: new Date(),
+          },
+          true,
+          task
+        );
         setResult("");
       }
     }

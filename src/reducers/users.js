@@ -7,6 +7,10 @@ import {
   SELECT_USER,
   CLEAR_SELECTED_USER,
   CLEAR_USERS_TASK,
+  SET_MESSAGE_LISTS,
+  SET_CHAT_MESSAGE,
+  SET_SENT_CHAT_MESSAGE,
+  REMOVE_CHAT_MESSAGE,
 } from "../actions/types";
 
 const initialState = {
@@ -88,6 +92,56 @@ const users = (state = initialState, action) => {
       return {
         ...state,
         selectedUser: { ...state.selectedUser, usersTask: null },
+      };
+    case SET_MESSAGE_LISTS:
+      return {
+        ...state,
+        users: state.users.map((user) => {
+          if (user._id !== action.payload.appUserId) {
+            const messageList = [];
+            action.payload.sentTasks.map((task) =>
+              task.to === user._id ? messageList.push(task) : null
+            );
+            action.payload.unsolvedTasks.map((task) =>
+              task.from === user._id ? messageList.push(task) : null
+            );
+            return { ...user, messageList: messageList };
+          } else {
+            return { ...user };
+          }
+        }),
+      };
+    case SET_CHAT_MESSAGE:
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user._id === action.payload.from
+            ? { ...user, messageList: [...user.messageList, action.payload] }
+            : { ...user }
+        ),
+      };
+    case SET_SENT_CHAT_MESSAGE:
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user._id === action.payload.to
+            ? { ...user, messageList: [...user.messageList, action.payload] }
+            : { ...user }
+        ),
+      };
+    case REMOVE_CHAT_MESSAGE:
+      return {
+        ...state,
+        users: state.users.map((user) => {
+          if (user.messageList) {
+            const newMessageList = user.messageList.filter(
+              (message) => message._id !== action.payload
+            );
+            return { ...user, messageList: newMessageList };
+          } else {
+            return { ...user };
+          }
+        }),
       };
     default:
       return state;

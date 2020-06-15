@@ -1,10 +1,15 @@
-import React, { useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { setFromChat } from "../../actions/authActions";
 import PropTypes from "prop-types";
 import Chat from "../chat/Chat";
 import ChatPageTopBar from "../layout/ChatPageTopBar";
-import { newTask, taskSolved, setTaskMessage } from "../../actions/taskActions";
+import {
+  newTask,
+  taskSolved,
+  setTaskMessage,
+  setSentChatMessage,
+} from "../../actions/taskActions";
 
 const ChatPage = ({
   setFromChat,
@@ -15,19 +20,31 @@ const ChatPage = ({
   user,
   users,
   setTaskMessage,
+  setSentChatMessage,
 }) => {
+  const [currUser, setCurrUser] = useState(null);
+
+  useEffect(() => {
+    setCurrUser(users.find((user) => user._id === selectedUser._id));
+  }, [users, selectedUser]);
+
   return (
     <div>
-      <ChatPageTopBar selectedUser={selectedUser} />
-      <Chat
-        selectedUser={selectedUser}
-        newTask={newTask}
-        taskSolved={taskSolved}
-        tasks={tasks}
-        appUser={user}
-        socketId={selectedUser.socketId}
-        setTaskMessage={setTaskMessage}
-      />
+      {currUser && (
+        <Fragment>
+          <ChatPageTopBar selectedUser={selectedUser} />
+          <Chat
+            selectedUser={currUser}
+            newTask={newTask}
+            taskSolved={taskSolved}
+            tasks={tasks}
+            appUser={user}
+            socketId={currUser.socketId}
+            setTaskMessage={setTaskMessage}
+            setSentChatMessage={setSentChatMessage}
+          />
+        </Fragment>
+      )}
     </div>
   );
 };
@@ -44,6 +61,7 @@ ChatPage.propTypes = {
   newTask: PropTypes.func.isRequired,
   taskSolved: PropTypes.func.isRequired,
   setTaskMessage: PropTypes.func.isRequired,
+  setSentChatMessage: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -51,4 +69,5 @@ export default connect(mapStateToProps, {
   newTask,
   taskSolved,
   setTaskMessage,
+  setSentChatMessage,
 })(ChatPage);

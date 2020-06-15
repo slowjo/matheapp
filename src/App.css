@@ -431,6 +431,8 @@ label {
 .them {
   background: #ecf0f1;
   justify-self: flex-start;
+  background: #1078ad;
+  color: white;
 }
 
 .you {
@@ -454,6 +456,7 @@ label {
   max-height: calc(100vh - 159px);
   max-height: calc((var(--vh, 1vh) * 100) - 159px);
   overflow-y: scroll;
+  font-size: 25px;
 }
 
 .chat-input {
@@ -483,8 +486,10 @@ label {
 }
 
 .send-btn-block {
-  background: #1078ad;
-  color: white;
+  /* background: #1078ad; */
+  /* color: white; */
+  background: white;
+  color: #1078ad;
   padding: 10px;
   width: 90%;
   border-radius: 100px;
@@ -524,5 +529,6 @@ label {
     /* max-height: 90vh; */
     max-height: calc(100vh - 59px);
     overflow-y: scroll;
+    min-width: 390px;
   }
 }
