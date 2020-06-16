@@ -157,28 +157,29 @@ export const setTaskMessage = (message, response, taskMessage) => (
       payload: message,
     });
 
-    setTimeout(
-      () =>
-        dispatch({
-          type: REMOVE_TASK_MESSAGE,
-          payload: _id,
-        }),
-      15000
-    );
+    // Just a try
+    // setTimeout(
+    //   () =>
+    //     dispatch({
+    //       type: REMOVE_TASK_MESSAGE,
+    //       payload: _id,
+    //     }),
+    //   15000
+    // );
 
     dispatch({
       type: SET_CHAT_MESSAGE,
       payload: message,
     });
 
-    setTimeout(
-      () =>
-        dispatch({
-          type: REMOVE_CHAT_MESSAGE,
-          payload: _id,
-        }),
-      15000
-    );
+    // setTimeout(
+    //   () =>
+    //     dispatch({
+    //       type: REMOVE_CHAT_MESSAGE,
+    //       payload: _id,
+    //     }),
+    //   15000
+    // );
   } else {
     const _id2 = new Date().toISOString() + 2;
     const responseMessage = {
@@ -213,14 +214,6 @@ export const setTaskMessage = (message, response, taskMessage) => (
       });
       setTimeout(() => {
         dispatch({
-          type: REMOVE_TASK_MESSAGE,
-          payload: _id2,
-        });
-        dispatch({
-          type: REMOVE_CHAT_MESSAGE,
-          payload: _id2,
-        });
-        dispatch({
           type: SET_TASK_MESSAGE,
           payload: message,
         });
@@ -228,26 +221,36 @@ export const setTaskMessage = (message, response, taskMessage) => (
           type: SET_CHAT_MESSAGE,
           payload: message,
         });
-        if (taskMessage) {
-          dispatch({
-            type: SET_TASK_MESSAGE,
-            payload: taskMessage,
-          });
-          dispatch({
-            type: SET_CHAT_MESSAGE,
-            payload: taskMessage,
-          });
-        }
+        dispatch({
+          type: REMOVE_TASK_MESSAGE,
+          payload: _id2,
+        });
+        dispatch({
+          type: REMOVE_CHAT_MESSAGE,
+          payload: _id2,
+        });
         setTimeout(() => {
-          dispatch({
-            type: REMOVE_TASK_MESSAGE,
-            payload: _id,
-          });
-          dispatch({
-            type: REMOVE_CHAT_MESSAGE,
-            payload: _id,
-          });
-        }, 15000);
+          if (taskMessage) {
+            dispatch({
+              type: SET_TASK_MESSAGE,
+              payload: taskMessage,
+            });
+            dispatch({
+              type: SET_CHAT_MESSAGE,
+              payload: taskMessage,
+            });
+          }
+          setTimeout(() => {
+            dispatch({
+              type: REMOVE_TASK_MESSAGE,
+              payload: _id,
+            });
+            // dispatch({
+            //   type: REMOVE_CHAT_MESSAGE,
+            //   payload: _id,
+            // });
+          }, 15000);
+        }, 1000);
       }, 3000);
     }, 1000);
   }
@@ -264,14 +267,14 @@ export const setSentChatMessage = (message) => (dispatch) => {
     payload: message,
   });
 
-  setTimeout(
-    () =>
-      dispatch({
-        type: REMOVE_CHAT_MESSAGE,
-        payload: _id,
-      }),
-    15000
-  );
+  // setTimeout(
+  //   () =>
+  //     dispatch({
+  //       type: REMOVE_CHAT_MESSAGE,
+  //       payload: _id,
+  //     }),
+  //   15000
+  // );
 };
 
 // export const setTaskMessage = (message) => (dispatch) => {

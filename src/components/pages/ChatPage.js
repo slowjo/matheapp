@@ -42,6 +42,7 @@ const ChatPage = ({
             socketId={currUser.socketId}
             setTaskMessage={setTaskMessage}
             setSentChatMessage={setSentChatMessage}
+            mobileChat={true}
           />
         </Fragment>
       )}

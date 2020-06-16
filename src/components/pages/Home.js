@@ -278,69 +278,72 @@ const Home = ({
         )}
       </div> */}
       {/* <Navbar /> */}
-      <Router>
-        <Switch>
-          <Route exact path="/">
-            <div className="mobile-users-page">
-              <Navbar />
-              <div className="mobile-container">
-                {user && users && (
-                  <Fragment>
-                    <div className="user-list-desktop">
-                      {sortedUsers && (
-                        <NewUsers
-                          users={sortedUsers}
-                          selectUser={selectUser}
-                          tasks={tasks}
-                          desktop={false}
-                          appUser={user}
-                        />
-                      )}
-                    </div>
-                  </Fragment>
-                )}
+      {window.innerWidth < 450 ? (
+        <Router>
+          <Switch>
+            <Route exact path="/">
+              <div className="mobile-users-page">
+                <Navbar />
+                <div className="mobile-container">
+                  {user && users && (
+                    <Fragment>
+                      <div className="user-list-desktop">
+                        {sortedUsers && (
+                          <NewUsers
+                            users={sortedUsers}
+                            selectUser={selectUser}
+                            tasks={tasks}
+                            desktop={false}
+                            appUser={user}
+                          />
+                        )}
+                      </div>
+                    </Fragment>
+                  )}
+                </div>
               </div>
-            </div>
-          </Route>
-          <Route exact path="/chatpage" component={ChatPage} />
-        </Switch>
-      </Router>
-      <div className="desktop-page">
-        <Navbar />
-        <div className="desktop-container">
-          {user && users && (
-            <Fragment>
-              <div className="user-list-desktop">
-                {sortedUsers && (
-                  <NewUsers
-                    users={sortedUsers}
-                    selectUser={selectUser}
-                    tasks={tasks}
-                    desktop={true}
+            </Route>
+            <Route exact path="/chatpage" component={ChatPage} />
+          </Switch>
+        </Router>
+      ) : (
+        <div className="desktop-page">
+          <Navbar />
+          <div className="desktop-container">
+            {user && users && (
+              <Fragment>
+                <div className="user-list-desktop">
+                  {sortedUsers && (
+                    <NewUsers
+                      users={sortedUsers}
+                      selectUser={selectUser}
+                      tasks={tasks}
+                      desktop={true}
+                      appUser={user}
+                    />
+                  )}
+                </div>
+                <hr />
+                {currUser ? (
+                  <Chat
+                    selectedUser={currUser}
+                    newTask={newTask}
                     appUser={user}
+                    socketId={currUser.socketId}
+                    usersTask={selectedUser.usersTask}
+                    tasks={tasks}
+                    taskSolved={taskSolved}
+                    setTaskMessage={setTaskMessage}
+                    setSentChatMessage={setSentChatMessage}
                   />
+                ) : (
+                  <BlankChat />
                 )}
-              </div>
-              <hr />
-              {currUser ? (
-                <Chat
-                  selectedUser={currUser}
-                  newTask={newTask}
-                  appUser={user}
-                  socketId={currUser.socketId}
-                  usersTask={selectedUser.usersTask}
-                  tasks={tasks}
-                  taskSolved={taskSolved}
-                  setTaskMessage={setTaskMessage}
-                  setSentChatMessage={setSentChatMessage}
-                />
-              ) : (
-                <BlankChat />
-              )}
-            </Fragment>
-          )}
+              </Fragment>
+            )}
+          </div>
         </div>
-      </div>
+      )}
     </Fragment>
   );
 };

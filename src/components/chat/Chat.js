@@ -14,6 +14,7 @@ const Chat = ({
   taskSolved,
   setTaskMessage,
   setSentChatMessage,
+  mobileChat,
 }) => {
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -85,11 +86,7 @@ const Chat = ({
     document.documentElement.style.setProperty("--vh", `${vh}px`);
   }, []);
 
-  const ref = React.createRef();
-
   useEffect(() => {
-    ref.current.scrollTop = window.innerHeight;
-
     const thisDate = new Date().getDate();
 
     if (chatMessages) {
@@ -119,13 +116,21 @@ const Chat = ({
         }, {})
       );
     }
+
+    // if (mobileChat === true) {
+    setTimeout(() => {
+      console.log(document.getElementById("theChat"));
+      const chatDiv = document.getElementById("theChat");
+      chatDiv.scrollTop = chatDiv.scrollHeight;
+    }, 0);
+    // }
   }, [chatMessages]);
 
   // console.log("chatMessages: ", chatMessages);
 
   return (
     <div className="chat-container">
-      <div className="chat" ref={ref}>
+      <div className="chat" id="theChat">
         {Object.keys(groupedChatMessages).map((messageDate) => (
           <Fragment key={new Date().toISOString()}>
             <div className="chat-item chat-date">{messageDate}</div>

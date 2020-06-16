@@ -456,7 +456,7 @@ label {
   max-height: calc(100vh - 159px);
   max-height: calc((var(--vh, 1vh) * 100) - 159px);
   overflow-y: scroll;
-  font-size: 25px;
+  /* font-size: 25px; */
 }
 
 .chat-input {
