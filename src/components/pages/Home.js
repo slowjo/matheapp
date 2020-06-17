@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Redirect,
+  // Redirect,
 } from "react-router-dom";
 import ChatPage from "../pages/ChatPage";
 import NewUsers from "../users/NewUsers";
@@ -12,12 +12,12 @@ import Chat from "../chat/Chat";
 import BlankChat from "../chat/BlankChat";
 import Navbar from "../layout/Navbar";
 // New Stuff End
-import Users from "../users/Users";
-import TaskMessages from "../layout/TaskMessages";
-import Points from "../points/Points";
-import TaskForm from "../tasks/TaskForm";
-import Tasks from "../tasks/Tasks";
-import YourTask from "../tasks/YourTask";
+// import Users from "../users/Users";
+// import TaskMessages from "../layout/TaskMessages";
+// import Points from "../points/Points";
+// import TaskForm from "../tasks/TaskForm";
+// import Tasks from "../tasks/Tasks";
+// import YourTask from "../tasks/YourTask";
 import { connect } from "react-redux";
 import { getUser, setSocket, clearFromChat } from "../../actions/authActions";
 import {
@@ -58,7 +58,7 @@ const Home = ({
   userGoneOffline,
   selectedUser,
   selectUser,
-  clearSelectedUser,
+  // clearSelectedUser,
   newTask,
   receiveNewTask,
   tasks,
@@ -68,11 +68,11 @@ const Home = ({
   taskMessages,
   getTaskMessage,
   addPoint,
-  points,
-  unsolvedTasks,
-  selectTask,
-  selectedTask,
-  clearSelectedTask,
+  // points,
+  // unsolvedTasks,
+  // selectTask,
+  // selectedTask,
+  // clearSelectedTask,
   fromChat,
   clearFromChat,
   setSentChatMessage,
@@ -80,7 +80,7 @@ const Home = ({
 }) => {
   useEffect(() => {
     getUser();
-  }, []);
+  }, [getUser]);
 
   useEffect(() => {
     if (!fromChat) {
@@ -102,7 +102,8 @@ const Home = ({
     } else {
       setTimeout(() => clearFromChat(), 500);
     }
-  }, [isAuthenticated, user]);
+    // eslint-disable-next-line
+  }, [isAuthenticated, user, clearFromChat]);
 
   useEffect(() => {
     if (!fromChat) {
@@ -122,6 +123,7 @@ const Home = ({
         }, 1000);
       }
     }
+    // eslint-disable-next-line
   }, [socket, user]);
 
   useEffect(() => {
@@ -161,6 +163,7 @@ const Home = ({
         addPoint();
       });
     }
+    // eslint-disable-next-line
   }, [socket, loadingUsers]);
 
   const [sortedUsers, setSortedUsers] = useState(null);
@@ -213,6 +216,7 @@ const Home = ({
     if (users) {
       setSortedUsers(sortAndAddArray(users).sort(sortFuncTwo));
     }
+    // eslint-disable-next-line
   }, [users]);
 
   const [currUser, setCurrUser] = useState(null);
@@ -223,6 +227,7 @@ const Home = ({
     }
   }, [users, selectedUser]);
 
+  // eslint-disable-next-line
   const [isMobile, setIsMobile] = useState(true);
 
   window.addEventListener("resize", () => {

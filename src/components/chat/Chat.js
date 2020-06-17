@@ -2,19 +2,19 @@ import React, { Fragment, useState, useEffect } from "react";
 import ChatNewTask from "./ChatNewTask";
 import YourTask from "../tasks/YourTask";
 import TheirTask from "../tasks/TheirTask";
-import { clearFromChat } from "../../actions/authActions";
+// import { clearFromChat } from "../../actions/authActions";
 
 const Chat = ({
   selectedUser,
   newTask,
   appUser,
   socketId,
-  usersTask,
+  // usersTask,
   tasks,
   taskSolved,
   setTaskMessage,
   setSentChatMessage,
-  mobileChat,
+  // mobileChat,
   markAsRead,
 }) => {
   const [chatMessages, setChatMessages] = useState([]);
@@ -87,7 +87,7 @@ const Chat = ({
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
     markAsRead(selectedUser);
-  }, []);
+  }, [markAsRead, selectedUser]);
 
   useEffect(() => {
     const thisDate = new Date().getDate();
@@ -129,6 +129,7 @@ const Chat = ({
       }
     }, 0);
     // }
+    // eslint-disable-next-line
   }, [chatMessages]);
 
   // console.log("chatMessages: ", chatMessages);

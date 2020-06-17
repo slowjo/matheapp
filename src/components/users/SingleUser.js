@@ -1,23 +1,23 @@
 import React, { Fragment } from "react";
-import TaskForm from "../tasks/TaskForm";
-import YourTask from "../tasks/YourTask";
+// import TaskForm from "../tasks/TaskForm";
+// import YourTask from "../tasks/YourTask";
 
 const SingleUser = ({
   user,
-  appUser,
+  // appUser,
   selectUser,
   clearSelectedUser,
   selectedUser,
-  newTask,
+  // newTask,
   tasks,
-  taskSolved,
-  setTaskMessage,
+  // taskSolved,
+  // setTaskMessage,
 }) => {
-  const { name, _id, socketId, online } = user;
+  const { name, _id, online } = user;
 
-  const usersTask = tasks.sentTasks.filter((task) => task.to === _id);
+  // const usersTask = tasks.sentTasks.filter((task) => task.to === _id);
 
-  const yourTask = tasks.unsolvedTasks.filter((task) => task.from === _id);
+  // const yourTask = tasks.unsolvedTasks.filter((task) => task.from === _id);
 
   const onClick = () => {
     console.log("click");

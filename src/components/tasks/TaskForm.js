@@ -1,13 +1,13 @@
 import React, { useState } from "react";
-import { clearSelectedUser } from "../../actions/usersActions";
+// import { clearSelectedUser } from "../../actions/usersActions";
 
 const TaskForm = ({
   user,
   appUser,
   newTask,
   socketId,
-  clearSelectedUser,
-  setTaskMessage,
+  // clearSelectedUser,
+  // setTaskMessage,
 }) => {
   const [task, setTask] = useState({
     numberOne: "",

@@ -13,7 +13,7 @@ const Login = ({ login, isAuthenticated, error, history, clearErrors }) => {
       alert(error);
       clearErrors();
     }
-  }, [error, isAuthenticated, history]);
+  }, [error, isAuthenticated, history, clearErrors]);
 
   const [user, setUser] = useState({
     name: "",

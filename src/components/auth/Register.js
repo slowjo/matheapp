@@ -19,7 +19,7 @@ const Register = ({
       alert(error);
       clearErrors();
     }
-  }, [error, isAuthenticated, history]);
+  }, [error, isAuthenticated, history, clearErrors]);
 
   const [user, setUser] = useState({
     name: "",

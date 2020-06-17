@@ -12,6 +12,16 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
     return i;
   };
 
+  const sortFunc = (a, b) => {
+    if (a.date < b.date) {
+      return -1;
+    }
+    if (a.date > b.date) {
+      return 1;
+    }
+    return 0;
+  };
+
   const getHourMins = (someDateString) => {
     const d = new Date(someDateString);
     const h = addZero(d.getHours());
@@ -27,20 +37,10 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
     return day + "/" + month + "/" + year;
   };
 
-  const sortFunc = (a, b) => {
-    if (a.date < b.date) {
-      return -1;
-    }
-    if (a.date > b.date) {
-      return 1;
-    }
-    return 0;
-  };
-
   useEffect(() => {
     // console.log(messageList);
     if (messageList && messageList.length > 0) {
-      const newestMessage = messageList[messageList.length - 1];
+      // const newestMessage = messageList[messageList.length - 1];
       //   console.log("newestMessage: ", newestMessage);
       setMessage(messageList.sort(sortFunc)[messageList.length - 1]);
       const thisDate = new Date(
@@ -60,6 +60,7 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
     } else {
       setMessage(null);
     }
+    // eslint-disable-next-line
   }, [messageList]);
 
   const onClick = () => {

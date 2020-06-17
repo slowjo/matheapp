@@ -7,8 +7,6 @@ import {
   SELECT_USER,
   CLEAR_SELECTED_USER,
   SET_POINTS,
-  NEW_TASK,
-  TASK_ERROR,
   SET_MESSAGE_LISTS,
   MARK_AS_READ,
 } from "./types";

@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const YourTask = ({
   from,
   task,
   taskSolved,
-  fromSocketId,
+  // fromSocketId,
   setTaskMessage,
-  users,
-  clearSelectedTask,
+  // users,
+  // clearSelectedTask,
   selectedUser,
   appUser,
   setSentChatMessage,
 }) => {
   // let socketId;
   // const [socketId, setSocketId] = useState(null);
+  // eslint-disable-next-line
   const [socketId, setSocketId] = useState(selectedUser.socketId);
-  let userDummy;
+  // let userDummy;
   // const [user, setUser] = useState(null);
-  const [user, setUser] = useState(selectedUser);
+  // const [user, setUser] = useState(selectedUser);
 
   // useEffect(() => {
   //   userDummy = users.find((item) => item._id === task.from);

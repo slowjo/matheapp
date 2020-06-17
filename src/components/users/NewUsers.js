@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 import NewSingleUser from "./NewSingleUser";
 import { Link } from "react-router-dom";
 
@@ -59,6 +59,7 @@ const NewUsers = ({ users, selectUser, tasks, desktop, appUser }) => {
     <Fragment>
       {desktop ? (
         users &&
+        // eslint-disable-next-line
         users.map((user) => {
           if (user._id !== appUser._id) {
             /* const messageList = [];
@@ -83,6 +84,7 @@ const NewUsers = ({ users, selectUser, tasks, desktop, appUser }) => {
       ) : (
         <Link to="/chatpage" className="user-link">
           {users &&
+            // eslint-disable-next-line
             users.map((user) => {
               if (user._id !== appUser._id) {
                 /* const messageList = [];

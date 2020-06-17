@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Navbar from "./components/layout/Navbar";
+// import Navbar from "./components/layout/Navbar";
 import Home from "./components/pages/Home";
-import ChatPage from "./components/pages/ChatPage";
+// import ChatPage from "./components/pages/ChatPage";
 import About from "./components/pages/About";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
