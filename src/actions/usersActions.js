@@ -10,6 +10,7 @@ import {
   NEW_TASK,
   TASK_ERROR,
   SET_MESSAGE_LISTS,
+  MARK_AS_READ,
 } from "./types";
 
 // const devurl = "http://localhost:9090/";
@@ -99,4 +100,10 @@ export const selectUser = (user) => ({
 // Clear Selected User
 export const clearSelectedUser = () => ({
   type: CLEAR_SELECTED_USER,
+});
+
+// Mark Users Messages As Read
+export const markAsRead = (selectedUser) => ({
+  type: MARK_AS_READ,
+  payload: selectedUser,
 });

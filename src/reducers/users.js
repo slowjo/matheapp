@@ -11,6 +11,7 @@ import {
   SET_CHAT_MESSAGE,
   SET_SENT_CHAT_MESSAGE,
   REMOVE_CHAT_MESSAGE,
+  MARK_AS_READ,
 } from "../actions/types";
 
 const initialState = {
@@ -142,6 +143,20 @@ const users = (state = initialState, action) => {
             return { ...user };
           }
         }),
+      };
+    case MARK_AS_READ:
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user._id === action.payload._id
+            ? {
+                ...user,
+                messageList: user.messageList.map((message) => {
+                  return { ...message, read: true };
+                }),
+              }
+            : { ...user }
+        ),
       };
     default:
       return state;

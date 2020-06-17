@@ -46,9 +46,17 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
       const thisDate = new Date(
         messageList.sort(sortFunc)[messageList.length - 1].date
       );
-      setHourmins(
-        getDayMonthYear(messageList.sort(sortFunc)[messageList.length - 1].date)
-      );
+      if (thisDate.getDate === new Date().getDate) {
+        setHourmins(
+          getHourMins(messageList.sort(sortFunc)[messageList.length - 1].date)
+        );
+      } else {
+        setHourmins(
+          getDayMonthYear(
+            messageList.sort(sortFunc)[messageList.length - 1].date
+          )
+        );
+      }
     } else {
       setMessage(null);
     }
@@ -78,7 +86,8 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
           {message ? (
             <div className="user-status">
               {message.to === user._id && "Du: "}
-              {message.type === "multiplication" && message.type}
+              {message.type === "multiplication" &&
+                message.numberOne + " x " + message.numberTwo + " = ?"}
               {message.type === "message" && message.message}
             </div>
           ) : (
@@ -87,7 +96,7 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
         </div>
         <div className="user-right-info">
           {hourmins && <div className="date">{hourmins}</div>}
-          {message && message.from === user._id && (
+          {message && message.from === user._id && !message.read && (
             <div className="new-message-notify">1</div>
           )}
         </div>

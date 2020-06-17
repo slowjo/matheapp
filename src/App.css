@@ -531,4 +531,8 @@ label {
     overflow-y: scroll;
     min-width: 390px;
   }
+
+  .blank-chat {
+    height: calc(100vh - 59px);
+  }
 }

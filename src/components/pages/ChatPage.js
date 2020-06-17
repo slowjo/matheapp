@@ -10,6 +10,7 @@ import {
   setTaskMessage,
   setSentChatMessage,
 } from "../../actions/taskActions";
+import { markAsRead } from "../../actions/usersActions";
 
 const ChatPage = ({
   setFromChat,
@@ -21,6 +22,7 @@ const ChatPage = ({
   users,
   setTaskMessage,
   setSentChatMessage,
+  markAsRead,
 }) => {
   const [currUser, setCurrUser] = useState(null);
 
@@ -43,6 +45,7 @@ const ChatPage = ({
             setTaskMessage={setTaskMessage}
             setSentChatMessage={setSentChatMessage}
             mobileChat={true}
+            markAsRead={markAsRead}
           />
         </Fragment>
       )}
@@ -63,6 +66,7 @@ ChatPage.propTypes = {
   taskSolved: PropTypes.func.isRequired,
   setTaskMessage: PropTypes.func.isRequired,
   setSentChatMessage: PropTypes.func.isRequired,
+  markAsRead: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -71,4 +75,5 @@ export default connect(mapStateToProps, {
   taskSolved,
   setTaskMessage,
   setSentChatMessage,
+  markAsRead,
 })(ChatPage);

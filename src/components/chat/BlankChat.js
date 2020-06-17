@@ -1,7 +1,7 @@
 import React from "react";
 
 const BlankChat = () => {
-  return <div>BlankChat</div>;
+  return <div className="blank-chat">BlankChat</div>;
 };
 
 export default BlankChat;

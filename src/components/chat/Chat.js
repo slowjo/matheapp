@@ -15,6 +15,7 @@ const Chat = ({
   setTaskMessage,
   setSentChatMessage,
   mobileChat,
+  markAsRead,
 }) => {
   const [chatMessages, setChatMessages] = useState([]);
 
@@ -84,6 +85,8 @@ const Chat = ({
     let vh = window.innerHeight * 0.01;
 
     document.documentElement.style.setProperty("--vh", `${vh}px`);
+
+    markAsRead(selectedUser);
   }, []);
 
   useEffect(() => {
@@ -121,7 +124,9 @@ const Chat = ({
     setTimeout(() => {
       console.log(document.getElementById("theChat"));
       const chatDiv = document.getElementById("theChat");
-      chatDiv.scrollTop = chatDiv.scrollHeight;
+      if (chatDiv) {
+        chatDiv.scrollTop = chatDiv.scrollHeight;
+      }
     }, 0);
     // }
   }, [chatMessages]);

@@ -27,6 +27,7 @@ import {
   userGoneOffline,
   selectUser,
   clearSelectedUser,
+  markAsRead,
 } from "../../actions/usersActions";
 import {
   newTask,
@@ -75,6 +76,7 @@ const Home = ({
   fromChat,
   clearFromChat,
   setSentChatMessage,
+  markAsRead,
 }) => {
   useEffect(() => {
     getUser();
@@ -221,6 +223,18 @@ const Home = ({
     }
   }, [users, selectedUser]);
 
+  const [isMobile, setIsMobile] = useState(true);
+
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 450) {
+      setIsMobile(false);
+    } else {
+      setIsMobile(true);
+    }
+  });
+
+  // console.log(isMobile);
+
   return (
     <Fragment>
       {/* <div>
@@ -335,6 +349,7 @@ const Home = ({
                     taskSolved={taskSolved}
                     setTaskMessage={setTaskMessage}
                     setSentChatMessage={setSentChatMessage}
+                    markAsRead={markAsRead}
                   />
                 ) : (
                   <BlankChat />
@@ -383,6 +398,7 @@ Home.propTypes = {
   clearSelectedTask: PropTypes.func.isRequired,
   clearFromChat: PropTypes.func.isRequired,
   setSentChatMessage: PropTypes.func.isRequired,
+  markAsRead: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -405,4 +421,5 @@ export default connect(mapStateToProps, {
   clearSelectedTask,
   clearFromChat,
   setSentChatMessage,
+  markAsRead,
 })(Home);
