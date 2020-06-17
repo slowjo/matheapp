@@ -87,7 +87,8 @@ const Chat = ({
     document.documentElement.style.setProperty("--vh", `${vh}px`);
 
     markAsRead(selectedUser);
-  }, [markAsRead, selectedUser]);
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     const thisDate = new Date().getDate();
