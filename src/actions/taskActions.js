@@ -68,16 +68,40 @@ export const newTask = (task) => async (dispatch) => {
 };
 
 // Receive New Task in realtime
-export const receiveNewTask = (task) => (dispatch) => {
-  dispatch({
-    type: NEW_TASK_RECEIVED,
-    payload: task,
-  });
+export const receiveNewTask = (task) => async (dispatch) => {
+  try {
+    const res = await fetch(`${produrl}tasks/taskreceived`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        taskId: task._id,
+        taskFrom: task.from,
+        taskTo: task.to,
+      }),
+    });
+    if (res.status !== 200) {
+      throw new Error("Error sending info");
+    }
+    const resData = await res.json();
+    console.log(resData);
 
-  dispatch({
-    type: SET_CHAT_MESSAGE,
-    payload: task,
-  });
+    dispatch({
+      type: NEW_TASK_RECEIVED,
+      payload: task,
+    });
+
+    dispatch({
+      type: SET_CHAT_MESSAGE,
+      payload: task,
+    });
+  } catch (err) {
+    dispatch({
+      type: TASK_ERROR,
+      payload: err.message,
+    });
+  }
 };
 
 // Task Solved

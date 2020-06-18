@@ -85,10 +85,13 @@ const Chat = ({
     let vh = window.innerHeight * 0.01;
 
     document.documentElement.style.setProperty("--vh", `${vh}px`);
-
-    markAsRead(selectedUser);
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    markAsRead(selectedUser, appUser._id);
+    // eslint-disable-next-line
+  }, [selectedUser._id, selectedUser.messageList.length]);
 
   useEffect(() => {
     const thisDate = new Date().getDate();
@@ -135,11 +138,15 @@ const Chat = ({
 
   // console.log("chatMessages: ", chatMessages);
 
+  // console.log("keys: ", Object.keys(groupedChatMessages));
+  // console.log("chat: ", chatMessages);
+
   return (
     <div className="chat-container">
       <div className="chat" id="theChat">
         {Object.keys(groupedChatMessages).map((messageDate) => (
-          <Fragment key={new Date().toISOString()}>
+          /* <Fragment key={new Date().toISOString()}> */
+          <Fragment key={messageDate.toString()}>
             <div className="chat-item chat-date">{messageDate}</div>
             {groupedChatMessages[messageDate]
               .sort(sortFunc)
@@ -165,7 +172,23 @@ const Chat = ({
                     <TheirTask task={messageItem} />
                   )}
                   <div className="chat-item-info">
-                    {getHourMins(messageItem.date)}{" "}
+                    {messageItem.from !== selectedUser._id &&
+                      messageItem.type === "multiplication" && (
+                        <div className="chat-item-info-check">
+                          {messageItem.status === "sent" && (
+                            <i className="fas fa-check" />
+                          )}
+                          {(messageItem.status === "received" ||
+                            messageItem.status === "seen") && (
+                            <i
+                              className={`fas fa-check-double ${messageItem.status}`}
+                            />
+                          )}
+                        </div>
+                      )}
+                    <div className="chat-item-info-time">
+                      {getHourMins(messageItem.date)}{" "}
+                    </div>
                   </div>
                 </div>
               ))}

@@ -417,9 +417,28 @@ label {
   margin-bottom: 3px;
 }
 
-.chat-item-info {
+/* .chat-item-info {
   text-align: right;
   font-size: 12px;
+} */
+
+.chat-item-info {
+  display: grid;
+  font-size: 12px;
+}
+.chat-item-info-check {
+  justify-self: flex-start;
+  grid-row: 1;
+  /* color: #95a5a6; */
+}
+
+.chat-item-info-time {
+  justify-self: flex-end;
+  grid-row: 1;
+}
+
+.seen {
+  color: #1078ad;
 }
 
 .chat-date {

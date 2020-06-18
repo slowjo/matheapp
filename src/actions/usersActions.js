@@ -8,7 +8,9 @@ import {
   CLEAR_SELECTED_USER,
   SET_POINTS,
   SET_MESSAGE_LISTS,
+  MARK_AS_RECEIVED,
   MARK_AS_READ,
+  MARK_AS_SEEN,
 } from "./types";
 
 // const devurl = "http://localhost:9090/";
@@ -100,8 +102,54 @@ export const clearSelectedUser = () => ({
   type: CLEAR_SELECTED_USER,
 });
 
+// Mark Message As Received
+export const markAsReceived = (receivedTask) => ({
+  type: MARK_AS_RECEIVED,
+  payload: receivedTask,
+});
+
 // Mark Users Messages As Read
-export const markAsRead = (selectedUser) => ({
-  type: MARK_AS_READ,
-  payload: selectedUser,
+export const markAsRead = (selectedUser, appUserId) => async (dispatch) => {
+  try {
+    if (appUserId) {
+      const receivedMultiplication = selectedUser.messageList.find(
+        (message) =>
+          message.type === "multiplication" &&
+          message.to.toString() === appUserId.toString()
+      );
+
+      if (receivedMultiplication) {
+        console.log("yay: ", receivedMultiplication);
+        const res = await fetch(`${produrl}tasks/taskseen`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            taskId: receivedMultiplication._id,
+            taskFrom: receivedMultiplication.from,
+            taskTo: receivedMultiplication.to,
+          }),
+        });
+        const resData = await res.json();
+        console.log(resData);
+      }
+    }
+
+    dispatch({
+      type: MARK_AS_READ,
+      payload: selectedUser,
+    });
+  } catch (err) {
+    dispatch({
+      type: USERS_ERROR,
+      payload: err.message,
+    });
+  }
+};
+
+// Mark Message As Seen
+export const markAsSeen = (seenTask) => ({
+  type: MARK_AS_SEEN,
+  payload: seenTask,
 });

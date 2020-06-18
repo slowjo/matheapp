@@ -12,6 +12,8 @@ import {
   SET_SENT_CHAT_MESSAGE,
   REMOVE_CHAT_MESSAGE,
   MARK_AS_READ,
+  MARK_AS_RECEIVED,
+  MARK_AS_SEEN,
 } from "../actions/types";
 
 const initialState = {
@@ -143,6 +145,46 @@ const users = (state = initialState, action) => {
             return { ...user };
           }
         }),
+      };
+    case MARK_AS_RECEIVED:
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user._id === action.payload.taskTo
+            ? {
+                ...user,
+                messageList: user.messageList.map((message) => {
+                  if (message.status === "sent") {
+                    return { ...message, status: "received" };
+                  } else {
+                    return { ...message };
+                  }
+                }),
+              }
+            : { ...user }
+        ),
+      };
+    case MARK_AS_SEEN:
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user._id === action.payload.taskTo
+            ? {
+                ...user,
+                messageList: user.messageList.map((message) => {
+                  if (
+                    (message.status === "sent" ||
+                      message.status === "received") &&
+                    message._id === action.payload.seenTaskId
+                  ) {
+                    return { ...message, status: "seen" };
+                  } else {
+                    return { ...message };
+                  }
+                }),
+              }
+            : { ...user }
+        ),
       };
     case MARK_AS_READ:
       return {

@@ -27,7 +27,9 @@ import {
   userGoneOffline,
   selectUser,
   clearSelectedUser,
+  markAsReceived,
   markAsRead,
+  markAsSeen,
 } from "../../actions/usersActions";
 import {
   newTask,
@@ -76,7 +78,9 @@ const Home = ({
   fromChat,
   clearFromChat,
   setSentChatMessage,
+  markAsReceived,
   markAsRead,
+  markAsSeen,
 }) => {
   useEffect(() => {
     getUser();
@@ -161,6 +165,14 @@ const Home = ({
       socket.on("solvedTask", () => {
         console.log("+1!");
         addPoint();
+      });
+      socket.on("taskReceived", (receivedTask) => {
+        console.log("task received: ", receivedTask);
+        markAsReceived(receivedTask);
+      });
+      socket.on("taskSeen", (seenTask) => {
+        console.log("task seen: ", seenTask);
+        markAsSeen(seenTask);
       });
     }
     // eslint-disable-next-line
@@ -403,7 +415,9 @@ Home.propTypes = {
   clearSelectedTask: PropTypes.func.isRequired,
   clearFromChat: PropTypes.func.isRequired,
   setSentChatMessage: PropTypes.func.isRequired,
+  markAsReceived: PropTypes.func.isRequired,
   markAsRead: PropTypes.func.isRequired,
+  markAsSeen: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, {
@@ -426,5 +440,7 @@ export default connect(mapStateToProps, {
   clearSelectedTask,
   clearFromChat,
   setSentChatMessage,
+  markAsReceived,
   markAsRead,
+  markAsSeen,
 })(Home);
