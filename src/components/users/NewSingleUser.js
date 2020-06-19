@@ -97,9 +97,11 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
         </div>
         <div className="user-right-info">
           {hourmins && <div className="date">{hourmins}</div>}
-          {message && message.from === user._id && !message.read && (
-            <div className="new-message-notify">1</div>
-          )}
+          {message &&
+            message.from === user._id &&
+            !message.read &&
+            ((message.status && message.status !== "seen") ||
+              !message.status) && <div className="new-message-notify">1</div>}
         </div>
       </div>
     </div>

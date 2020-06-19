@@ -14,6 +14,10 @@ import {
   MARK_AS_READ,
   MARK_AS_RECEIVED,
   MARK_AS_SEEN,
+  REGISTER_FAIL,
+  LOGIN_FAIL,
+  LOGOUT,
+  AUTH_ERROR,
 } from "../actions/types";
 
 const initialState = {
@@ -25,6 +29,17 @@ const initialState = {
 
 const users = (state = initialState, action) => {
   switch (action.type) {
+    case REGISTER_FAIL:
+    case LOGIN_FAIL:
+    case LOGOUT:
+    case AUTH_ERROR:
+      return {
+        ...state,
+        users: null,
+        loadingUsers: true,
+        selectedUser: null,
+        error: null,
+      };
     case GET_USERS:
       return {
         ...state,

@@ -11,6 +11,10 @@ import {
   ADD_POINT,
   SELECT_TASK,
   CLEAR_SELECTED_TASK,
+  REGISTER_FAIL,
+  LOGIN_FAIL,
+  LOGOUT,
+  AUTH_ERROR,
 } from "../actions/types";
 
 const initialState = {
@@ -24,6 +28,19 @@ const initialState = {
 
 const tasks = (state = initialState, action) => {
   switch (action.type) {
+    case REGISTER_FAIL:
+    case LOGIN_FAIL:
+    case LOGOUT:
+    case AUTH_ERROR:
+      return {
+        ...state,
+        unsolvedTasks: [],
+        sentTasks: [],
+        taskMessages: [],
+        points: 0,
+        selectedTask: null,
+        taskError: null,
+      };
     case SET_POINTS:
       return {
         ...state,
