@@ -26,7 +26,7 @@ const produrl = "https://boiling-oasis-15718.herokuapp.com/";
 // Send New Task To User
 export const newTask = (task) => async (dispatch) => {
   try {
-    const { numberOne, numberTwo, from, to, toSocket } = task;
+    const { numberOne, numberTwo, from, to, toSocket, type } = task;
     const res = await fetch(
       // "http://localhost:9090/tasks/newtask"
       `${produrl}tasks/newtask`,
@@ -42,6 +42,7 @@ export const newTask = (task) => async (dispatch) => {
           from,
           to,
           toSocket,
+          type,
         }),
       }
     );

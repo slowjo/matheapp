@@ -75,6 +75,14 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
     selectUser(pickedUser);
   };
 
+  let theOperator;
+  if (message) {
+    if (message.type === "addition") theOperator = "+";
+    if (message.type === "subtraction") theOperator = "-";
+    if (message.type === "multiplication") theOperator = "x";
+    if (message.type === "division") theOperator = "/";
+  }
+
   return (
     <div className="user-item" onClick={onClick}>
       <div className="user-img">
@@ -87,8 +95,16 @@ const NewSingleUser = ({ user, selectUser, tasks, messageList }) => {
           {message ? (
             <div className="user-status">
               {message.to === user._id && "Du: "}
-              {message.type === "multiplication" &&
-                message.numberOne + " x " + message.numberTwo + " = ?"}
+              {(message.type === "multiplication" ||
+                message.type === "addition" ||
+                message.type === "subtraction" ||
+                message.type === "division") &&
+                message.numberOne +
+                  " " +
+                  theOperator +
+                  message.numberTwo +
+                  " " +
+                  " = ?"}
               {message.type === "message" && message.message}
             </div>
           ) : (

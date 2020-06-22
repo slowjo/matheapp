@@ -176,12 +176,14 @@ label {
   width: 70px;
   padding: 5px;
   border-radius: 5px;
-  border: 1px solid grey;
+  /* border: 1px solid grey; */
   /* border: none; */
-  /* background: #f4f4f4; */
+  /* background: #95a5a6; */
+  background: white;
   font-size: 30px;
   font-style: inherit;
   text-align: right;
+  border: none;
 }
 
 .py-10 {
@@ -467,41 +469,68 @@ label {
   display: grid;
   height: calc(100vh - 59px);
   height: calc((var(--vh, 1vh) * 100) - 59px);
+  background: url("wp5149772-chat-whatsapp-iphone-wallpapers.jpg") no-repeat
+    center center/cover;
 }
 
 .chat {
   height: fit-content;
   /* max-height: calc(100vh - 129px); */
-  max-height: calc(100vh - 159px);
-  max-height: calc((var(--vh, 1vh) * 100) - 159px);
+  /* max-height: calc(100vh - 159px); */
+  max-height: calc(100vh - 179px);
+  /* max-height: calc((var(--vh, 1vh) * 100) - 159px); */
+  max-height: calc((var(--vh, 1vh) * 100) - 179px);
   overflow-y: scroll;
   /* font-size: 25px; */
 }
 
 .chat-input {
-  height: 100px;
+  /* height: 100px; */
+  height: 120px;
   align-self: flex-end;
   padding: 0 30px;
   /* display: grid; */
   /* grid-template-columns: 1fr auto; */
   align-items: center;
   /* overflow: hidden; */
+  font-size: 12px;
+}
+
+/* .chat-input-form {
+  background: white;
+  border-radius: 200px;
+} */
+
+.chat-input-grid-container {
+  display: grid;
+  grid-template-columns: auto 50px;
+  grid-gap: 5px;
+  margin: 5px 0;
+}
+
+.chat-input-wrapper {
+  background: #1078ad;
+  border-radius: 200px;
+  color: white;
+  padding: 1px 0;
 }
 
 .send-btn {
   background: #1078ad;
   color: white;
-  padding: 15px;
+  padding: 10px;
   border-radius: 50%;
   cursor: pointer;
+  font-size: 15px;
 }
 
 .send-btn-off {
   background: #ecf0f1;
   color: white;
-  padding: 15px;
+  padding: 10px;
   border-radius: 50%;
   cursor: default;
+  font-size: 15px;
 }
 
 .send-btn-block {
@@ -514,6 +543,22 @@ label {
   border-radius: 100px;
   cursor: pointer;
   margin: 5px;
+}
+
+/* Task type choice */
+.task-type-button-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
+}
+
+.task-type-button {
+  background: white;
+  border-radius: 200px;
+  text-align: center;
+  padding: 3px 5px;
+  font-size: 12px;
+  border: none;
 }
 
 /* Cut bit end */
@@ -553,5 +598,7 @@ label {
 
   .blank-chat {
     height: calc(100vh - 59px);
+    background: url("wp5149772-chat-whatsapp-iphone-wallpapers.jpg") no-repeat
+      center center/cover;
   }
 }

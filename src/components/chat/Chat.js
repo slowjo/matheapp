@@ -159,7 +159,10 @@ const Chat = ({
                   }
                 >
                   {messageItem.from === selectedUser._id &&
-                  messageItem.type === "multiplication" ? (
+                  (messageItem.type === "multiplication" ||
+                    messageItem.type === "addition" ||
+                    messageItem.type === "subtraction" ||
+                    messageItem.type === "division") ? (
                     <YourTask
                       task={messageItem}
                       taskSolved={taskSolved}
@@ -173,7 +176,10 @@ const Chat = ({
                   )}
                   <div className="chat-item-info">
                     {messageItem.from !== selectedUser._id &&
-                      messageItem.type === "multiplication" && (
+                      (messageItem.type === "multiplication" ||
+                        messageItem.type === "addition" ||
+                        messageItem.type === "subtraction" ||
+                        messageItem.type === "division") && (
                         <div className="chat-item-info-check">
                           {messageItem.status === "sent" && (
                             <i className="fas fa-check" />

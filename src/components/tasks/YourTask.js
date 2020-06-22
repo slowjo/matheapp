@@ -35,14 +35,39 @@ const YourTask = ({
 
   // console.log(task);
 
+  const checkResult = (task, result) => {
+    if (task.type === "addition") {
+      return parseInt(result) === task.numberOne + task.numberTwo;
+    } else if (task.type === "subtraction") {
+      return parseInt(result) === task.numberOne - task.numberTwo;
+    } else if (task.type === "multiplication") {
+      return parseInt(result) === task.numberOne * task.numberTwo;
+    } else if (task.type === "division") {
+      return parseInt(result) === task.numberOne / task.numberTwo;
+    } else {
+      return false;
+    }
+  };
+
+  let theOperator;
+  if (task.type === "addition") theOperator = "+";
+  if (task.type === "subtraction") theOperator = "-";
+  if (task.type === "multiplication") theOperator = "x";
+  if (task.type === "division") theOperator = "/";
+
   const onSubmit = (e) => {
     e.preventDefault();
-    if (task.type === "multiplication") {
-      console.log("its a multiplication");
-      if (parseInt(result) === task.numberOne * task.numberTwo) {
+    if (
+      task.type === "multiplication" ||
+      task.type === "addition" ||
+      task.type === "subtraction" ||
+      task.type === "division"
+    ) {
+      console.log(`its a ${task.type}`);
+      if (checkResult(task, result)) {
         // alert("Richtig, gut gemacht!");
         setSentChatMessage({
-          message: `${task.numberOne} x ${task.numberTwo} = ${result}`,
+          message: `${task.numberOne} ${theOperator} ${task.numberTwo} = ${result}`,
           from: appUser._id,
           to: task.from,
           type: "message",
@@ -64,7 +89,7 @@ const YourTask = ({
         // setTaskMessage("Leider falsch, probier es nochmal!");
         // alert("Leider falsch, probier es nochmal!");
         setSentChatMessage({
-          message: `${task.numberOne} x ${task.numberTwo} = ${result}`,
+          message: `${task.numberOne} ${theOperator} ${task.numberTwo} = ${result}`,
           from: appUser._id,
           to: task.from,
           type: "message",
@@ -83,6 +108,52 @@ const YourTask = ({
         setResult("");
       }
     }
+    // if (task.type === "multiplication") {
+    //   console.log("its a multiplication");
+    //   if (parseInt(result) === task.numberOne * task.numberTwo) {
+    //     // alert("Richtig, gut gemacht!");
+    //     setSentChatMessage({
+    //       message: `${task.numberOne} x ${task.numberTwo} = ${result}`,
+    //       from: appUser._id,
+    //       to: task.from,
+    //       type: "message",
+    //       date: new Date(),
+    //     });
+    //     setTaskMessage(
+    //       {
+    //         message: "Richtig, gut gemacht!",
+    //         from: task.from,
+    //         type: "message",
+    //         date: new Date(),
+    //       },
+    //       true
+    //     );
+    //     taskSolved(task, parseInt(result), socketId);
+    //     setResult("");
+    //     // clearSelectedTask();
+    //   } else {
+    //     // setTaskMessage("Leider falsch, probier es nochmal!");
+    //     // alert("Leider falsch, probier es nochmal!");
+    //     setSentChatMessage({
+    //       message: `${task.numberOne} x ${task.numberTwo} = ${result}`,
+    //       from: appUser._id,
+    //       to: task.from,
+    //       type: "message",
+    //       date: new Date(),
+    //     });
+    //     setTaskMessage(
+    //       {
+    //         message: "Leider falsch, probier es nochmal!",
+    //         from: task.from,
+    //         type: "message",
+    //         date: new Date(),
+    //       },
+    //       true,
+    //       task
+    //     );
+    //     setResult("");
+    //   }
+    // }
   };
 
   return (
@@ -92,7 +163,8 @@ const YourTask = ({
         <div className="text-center">
           {/* <h4 className="text-center">Von {user && user.name}:</h4> */}
           <span className="font-30">
-            {task.numberOne} &times; {task.numberTwo} ={" "}
+            {/* {task.numberOne} &times; {task.numberTwo} ={" "} */}
+            {task.numberOne} {theOperator} {task.numberTwo} ={" "}
           </span>
           <input
             className="task-input"
