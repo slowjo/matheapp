@@ -505,14 +505,14 @@ label {
   display: grid;
   grid-template-columns: auto 50px;
   grid-gap: 5px;
-  margin: 5px 0;
+  margin: 5px 0 10px 0;
 }
 
 .chat-input-wrapper {
   background: #1078ad;
   border-radius: 200px;
   color: white;
-  padding: 1px 0;
+  padding: 3px 0;
 }
 
 .send-btn {

@@ -14,6 +14,8 @@ const ChatNewTask = ({
 
   const [taskType, setTaskType] = useState("multiplication");
 
+  console.log(taskType);
+
   const { numberOne, numberTwo } = task;
 
   const onChange = (e) => {
@@ -35,10 +37,13 @@ const ChatNewTask = ({
       alert("Das ist zu schwer, bitte gib kleinere Zahlen ein");
     } else if (taskType === "multiplication" && numberOne * numberTwo > 999) {
       alert("Das ist zu schwer, bitte gib kleinere Zahlen ein");
-    } else if (taskType === "subtraction" && numberTwo > numberOne) {
+    } else if (
+      taskType === "subtraction" &&
+      parseInt(numberTwo) > parseInt(numberOne)
+    ) {
       alert("Das Ergebnis soll nicht negativ sein");
     } else if (taskType === "division" && numberOne % numberTwo !== 0) {
-      alert("Sorry das geth nicht");
+      alert("Sorry das geht nicht");
     } else if (numberOne < 0 || numberTwo < 0) {
       alert("Nein");
       setTask({

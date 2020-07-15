@@ -114,7 +114,10 @@ export const markAsRead = (selectedUser, appUserId) => async (dispatch) => {
     if (appUserId) {
       const receivedMultiplication = selectedUser.messageList.find(
         (message) =>
-          message.type === "multiplication" &&
+          (message.type === "multiplication" ||
+            message.type === "addition" ||
+            message.type === "subtraction" ||
+            message.type === "division") &&
           message.to.toString() === appUserId.toString()
       );
 
