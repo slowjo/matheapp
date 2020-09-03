@@ -3,6 +3,6 @@ publish = "build"
 command = "npm run build"
 
 [[redirects]]
-from = "/*"
-to = "/"
+from = "https://keen-meninsky-74bbfd.netlify.app/chatpage"
+to = "https://keen-meninsky-74bbfd.netlify.app/"
 status = 200
