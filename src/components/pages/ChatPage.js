@@ -23,19 +23,12 @@ const ChatPage = ({
   setTaskMessage,
   setSentChatMessage,
   markAsRead,
-  history,
 }) => {
   const [currUser, setCurrUser] = useState(null);
 
   useEffect(() => {
     setCurrUser(users.find((user) => user._id === selectedUser._id));
   }, [users, selectedUser]);
-
-  useEffect(() => {
-    if (selectedUser === undefined || selectedUser === null) {
-      history.push("/");
-    }
-  }, []);
 
   return (
     <div>
