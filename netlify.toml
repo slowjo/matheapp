@@ -4,5 +4,5 @@ command = "npm run build"
 
 [[redirects]]
 from = "/*"
-to = "/"
+to = "/login"
 status = 200
