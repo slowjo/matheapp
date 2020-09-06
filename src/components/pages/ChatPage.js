@@ -36,14 +36,7 @@ const ChatPage = ({
       setCurrUser(users.find((user) => user._id === selectedUser._id));
     }
     console.log(typeof selectedUser);
-  }, [users, selectedUser]);
-
-  useEffect(() => {
-    if (typeof selectedUser === "undefined" || selectedUser === null) {
-      history.push("/");
-    }
-    console.log(typeof selectedUser);
-  }, []);
+  }, [users, selectedUser, history]);
 
   return (
     <div>
