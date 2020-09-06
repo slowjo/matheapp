@@ -23,12 +23,27 @@ const ChatPage = ({
   setTaskMessage,
   setSentChatMessage,
   markAsRead,
+  history,
 }) => {
   const [currUser, setCurrUser] = useState(null);
 
+  console.log("This is the chatpage");
+
   useEffect(() => {
-    setCurrUser(users.find((user) => user._id === selectedUser._id));
+    if (typeof selectedUser === "undefined" || selectedUser === null) {
+      history.push("/");
+    } else {
+      setCurrUser(users.find((user) => user._id === selectedUser._id));
+    }
+    console.log(typeof selectedUser);
   }, [users, selectedUser]);
+
+  useEffect(() => {
+    if (typeof selectedUser === "undefined" || selectedUser === null) {
+      history.push("/");
+    }
+    console.log(typeof selectedUser);
+  }, []);
 
   return (
     <div>

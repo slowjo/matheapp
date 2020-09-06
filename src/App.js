@@ -18,6 +18,7 @@ function App() {
         <Route exact path="/about" component={About} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/chatpage" component={Home} />
         {/* <Route exact path="/chatpage" component={ChatPage} /> */}
       </Switch>
     </Router>
