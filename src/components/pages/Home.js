@@ -1,23 +1,11 @@
 import React, { Fragment, useEffect, useState } from "react";
-// New Stuff
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  // Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import ChatPage from "../pages/ChatPage";
 import NewUsers from "../users/NewUsers";
 import Chat from "../chat/Chat";
 import BlankChat from "../chat/BlankChat";
 import Navbar from "../layout/Navbar";
-// New Stuff End
-// import Users from "../users/Users";
-// import TaskMessages from "../layout/TaskMessages";
 // import Points from "../points/Points";
-// import TaskForm from "../tasks/TaskForm";
-// import Tasks from "../tasks/Tasks";
-// import YourTask from "../tasks/YourTask";
 import { connect } from "react-redux";
 import { getUser, setSocket, clearFromChat } from "../../actions/authActions";
 import {
@@ -60,7 +48,6 @@ const Home = ({
   userGoneOffline,
   selectedUser,
   selectUser,
-  // clearSelectedUser,
   newTask,
   receiveNewTask,
   tasks,
@@ -71,10 +58,6 @@ const Home = ({
   getTaskMessage,
   addPoint,
   // points,
-  // unsolvedTasks,
-  // selectTask,
-  // selectedTask,
-  // clearSelectedTask,
   fromChat,
   clearFromChat,
   setSentChatMessage,
@@ -121,7 +104,6 @@ const Home = ({
 
           // Set Task Message For Each Task In user.taskMessages
           user.taskMessages.forEach((taskMessageItem) => {
-            // setTaskMessage(taskMessageItem.message);
             setTaskMessage(taskMessageItem);
           });
         }, 1000);
@@ -148,18 +130,11 @@ const Home = ({
       socket.on("taskForYou", (task) => {
         console.log(task);
         receiveNewTask(task);
-        // const sender = users.filter(
-        //   (usersItem) => usersItem._id === task.from
-        // )[0].name;
-        // setTaskMessage(`${sender} hat dir eine Aufgabe geschickt`);
         getTaskMessage();
       });
       socket.on("sentTaskSolved", (task) => {
         console.log("someone solved a task you gave them");
         sentTaskSolved(task);
-        // const solver = users.filter((usersItem) => usersItem._id === task.to)[0]
-        //   .name;
-        // setTaskMessage(`${solver} hat deine Aufgabe gelöst`);
         getTaskMessage();
       });
       socket.on("solvedTask", () => {
@@ -250,8 +225,6 @@ const Home = ({
     }
   });
 
-  // console.log(isMobile);
-
   return (
     <Fragment>
       {/* <div>
@@ -259,56 +232,7 @@ const Home = ({
           <TaskMessages taskMessages={taskMessages} />
           <Points points={points} />
         </div>
-        {users && (
-          <Users
-            users={users}
-            appUser={user}
-            selectedUser={selectedUser}
-            selectUser={selectUser}
-            clearSelectedUser={clearSelectedUser}
-            newTask={newTask}
-            tasks={tasks}
-            taskSolved={taskSolved}
-            setTaskMessage={setTaskMessage}
-          />
-        )}
-        {selectedUser !== null && !selectedUser.usersTask && (
-          <TaskForm
-            user={selectedUser}
-            newTask={newTask}
-            appUser={user}
-            socketId={selectedUser.socketId}
-            clearSelectedUser={clearSelectedUser}
-            setTaskMessage={setTaskMessage}
-          />
-        )}
-        {selectedUser !== null && selectedUser.usersTask && (
-          <h4 className="task-form text-center">
-            Du hast {selectedUser.name} schon eine Aufgabe geschickt. Warte bis
-            die Aufgabe gelöst ist, dann kannst du eine neue schicken.
-          </h4>
-        )}
-        {users && (
-          <Tasks
-            tasks={unsolvedTasks}
-            selectTask={selectTask}
-            taskSolved={taskSolved}
-            setTaskMessage={setTaskMessage}
-            users={users}
-            clearSelectedTask={clearSelectedTask}
-          />
-        )}
-        {selectedTask !== null && (
-          <YourTask
-            task={selectedTask}
-            taskSolved={taskSolved}
-            setTaskMessage={setTaskMessage}
-            users={users}
-            clearSelectedTask={clearSelectedTask}
-          />
-        )}
       </div> */}
-      {/* <Navbar /> */}
       {window.innerWidth < 450 ? (
         <Router>
           <Switch>
